@@ -10,6 +10,7 @@ import {
   REVIEWS_JSON,
   SUCCESS_KEY_JSON,
   SUPPORT_EMAIL,
+  VERSION_JSON,
   getPage,
   VERSION,
   type MenuSection,
@@ -99,6 +100,23 @@ function formatDate(iso: string | null) {
     day: "numeric",
     year: "numeric",
   });
+}
+
+function useFirefoxVersion() {
+  const [version, setVersion] = useState(VERSION);
+
+  useEffect(() => {
+    fetch(VERSION_JSON, { signal: AbortSignal.timeout(12000) })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((payload) => {
+        const next =
+          typeof payload?.version === "string" ? payload.version.trim() : "";
+        if (/^\d+(?:\.\d+){0,3}$/.test(next)) setVersion(next);
+      })
+      .catch(() => {});
+  }, []);
+
+  return version;
 }
 
 function ReviewsList() {
@@ -395,6 +413,7 @@ export default function DetailPanel({
   const sizingRef = useRef(false);
   const [panelH, setPanelH] = useState<number | undefined>(undefined);
   const [sizing, setSizing] = useState(false);
+  const version = useFirefoxVersion();
 
   // Page change: animate height, then let CSS auto-size.
   useLayoutEffect(() => {
@@ -431,7 +450,7 @@ export default function DetailPanel({
               <span className={`tab-title${isHome ? " is-brand" : ""}`}>
                 {isHome ? "feed·rice" : page.title}
               </span>
-              <span className="beta">v{VERSION}</span>
+              <span className="beta">v{version}</span>
             </div>
           </div>
           <div

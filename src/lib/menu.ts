@@ -39,11 +39,12 @@ export const FIREFOX_URL =
   "https://addons.mozilla.org/en-US/firefox/addon/feedrice-sort-instagram-tiktok/";
 export const FIREFOX_REVIEWS_URL = `${FIREFOX_URL}reviews/`;
 export const REVIEWS_JSON = "/reviews.json";
+export const VERSION_JSON = "/version.json";
 export const SUCCESS_KEY_JSON = "/success-key.json";
 export const STRIPE_MONTHLY_URL = "https://buy.stripe.com/7sY28s804eUa9CGgzI3AY0f";
 export const STRIPE_ANNUAL_URL = "https://buy.stripe.com/8x2bJ2cgk8vM9CG3MW3AY0h";
 export const SUPPORT_EMAIL = "esvictorg@gmail.com";
-export const VERSION = "6.9";
+export const VERSION = "6.14";
 
 export const MENU_NODES: MenuNode[] = [
   {
