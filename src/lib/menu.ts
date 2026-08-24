@@ -39,6 +39,7 @@ export const FIREFOX_URL =
   "https://addons.mozilla.org/en-US/firefox/addon/feedrice-sort-instagram-tiktok/";
 export const FIREFOX_REVIEWS_URL = `${FIREFOX_URL}reviews/`;
 export const REVIEWS_JSON = "/reviews.json";
+export const SUCCESS_KEY_JSON = "/success-key.json";
 export const STRIPE_MONTHLY_URL = "https://buy.stripe.com/7sY28s804eUa9CGgzI3AY0f";
 export const STRIPE_ANNUAL_URL = "https://buy.stripe.com/4gM5kEdkodQ67uy83c3AY0g";
 export const SUPPORT_EMAIL = "esvictorg@gmail.com";
@@ -88,7 +89,7 @@ export const MENU_NODES: MenuNode[] = [
       },
       {
         heading: "Activate Pro",
-        body: "Subscribe from the extension or this site. Stripe emails a license key. Open feed·rice, tap Activate here, and paste the key.",
+        body: "Subscribe from the extension or this site. After payment you land on this site with your license key. Open feed·rice, tap Activate here, and paste the key.",
       },
       {
         heading: "Privacy",
@@ -148,6 +149,11 @@ export const MENU_NODES: MenuNode[] = [
 ];
 
 export const PAGES: Record<string, PageContent> = {
+  success: {
+    title: "feed·rice",
+    uri: "success",
+    description: "Thanks for subscribing to feed·rice Pro. Here is your license key.",
+  },
   "/": {
     title: "feed·rice",
     uri: "/",

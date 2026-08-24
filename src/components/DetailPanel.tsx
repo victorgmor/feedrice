@@ -8,6 +8,8 @@ import {
 import {
   FIREFOX_REVIEWS_URL,
   REVIEWS_JSON,
+  SUCCESS_KEY_JSON,
+  SUPPORT_EMAIL,
   getPage,
   VERSION,
   type MenuSection,
@@ -198,6 +200,106 @@ function ReviewsList() {
   );
 }
 
+function LicenseSuccess() {
+  const [licenseKey, setLicenseKey] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const sessionId = new URLSearchParams(window.location.search).get(
+      "session_id",
+    );
+    if (!sessionId?.startsWith("cs_")) {
+      setError(
+        "Missing checkout session. If you just paid, check your email or write to us.",
+      );
+      return;
+    }
+
+    let cancelled = false;
+    let timer = 0;
+
+    const poll = () => {
+      fetch(`${SUCCESS_KEY_JSON}?session_id=${encodeURIComponent(sessionId)}`, {
+        signal: AbortSignal.timeout(12000),
+      })
+        .then((r) => (r.ok || r.status === 400 ? r.json() : Promise.reject()))
+        .then((payload) => {
+          if (cancelled) return;
+          if (typeof payload?.licenseKey === "string" && payload.licenseKey) {
+            setLicenseKey(payload.licenseKey);
+            return;
+          }
+          timer = window.setTimeout(poll, 2000);
+        })
+        .catch(() => {
+          if (!cancelled) timer = window.setTimeout(poll, 2000);
+        });
+    };
+
+    poll();
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, []);
+
+  async function copyKey() {
+    if (!licenseKey) return;
+    try {
+      await navigator.clipboard.writeText(licenseKey);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  }
+
+  if (error) {
+    return (
+      <div className="license-success">
+        <p>{error}</p>
+        <p>
+          <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="license-success">
+      {licenseKey ? (
+        <>
+          <p className="license-key-box">{licenseKey}</p>
+          <div className="launch-btns">
+            <button type="button" className="launch-btn" onClick={copyKey}>
+              {copied ? "Copied!" : "Copy key"}
+            </button>
+          </div>
+        </>
+      ) : (
+        <p className="reviews-empty">Generating your license key…</p>
+      )}
+      <div className="page-section">
+        <p className="page-lead">How to activate:</p>
+        <ol className="page-steps">
+          <li>Open the feed·rice extension in Firefox</li>
+          <li>
+            Click <em>Have a license? Activate here</em>
+          </li>
+          <li>
+            Paste your key and click <em>Activate Pro</em>
+          </li>
+        </ol>
+      </div>
+      <p className="license-help">
+        Pro subscription · up to 3 browsers · Manage billing from the extension.
+        Need help? <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+      </p>
+    </div>
+  );
+}
+
 function PageBody({
   page,
   isHome,
@@ -225,6 +327,7 @@ function PageBody({
   return (
     <div className={`page-body${isHome ? " page-body-home" : ""}`}>
       <Paras text={page.description} />
+      {page.uri === "success" && <LicenseSuccess />}
       {page.uri === "reviews" && <ReviewsList />}
       {sections.map((s, i) => (
         <Section

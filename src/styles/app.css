@@ -610,7 +610,8 @@ a:hover {
   margin-top: 4px;
 }
 
-.page-container a.launch-btn {
+.page-container a.launch-btn,
+.page-container button.launch-btn {
   flex: 1.45 1 0;
   display: inline-flex;
   align-items: center;
@@ -653,7 +654,8 @@ a:hover {
   transform: translateY(-2px);
 }
 
-.page-container a.launch-btn:hover {
+.page-container a.launch-btn:hover,
+.page-container button.launch-btn:hover {
   background: #000;
   color: var(--on-ink);
   text-decoration: none;
@@ -684,4 +686,39 @@ a:hover {
 
 .index-link {
   text-decoration: underline;
+}
+
+.license-success {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.license-key-box {
+  margin: 2px 0 0;
+  padding: 12px 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  word-break: break-all;
+  text-align: center;
+}
+
+.page-steps {
+  margin: 0;
+  padding: 0 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.page-steps em {
+  font-style: italic;
+}
+
+.license-help {
+  color: var(--muted);
+  font-size: 12px;
 }
