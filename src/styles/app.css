@@ -43,10 +43,12 @@ main {
   --muted: rgb(51 65 85 / 70%);
   --paper: #f6f6f6;
   --panel: #fff;
-  --line: rgb(209 213 219);
+  --line: #d1d5db;
   --dash: rgb(17 17 17 / 22%);
   --hover: #f9fafb;
-  --hub-size: 20px;
+  --bold: var(--ink);
+  --panel-x: 16px;
+  --hub-size: 16px;
   --font: "Overpass Mono", ui-monospace, monospace;
 }
 
@@ -85,38 +87,6 @@ a:hover {
   height: 100%;
 }
 
-.topbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  padding: 4px 20px calc(4px + env(safe-area-inset-bottom, 0px));
-  background: transparent;
-  font-family: var(--font);
-  font-size: 13px;
-  line-height: 1.35em;
-  color: var(--fg);
-}
-
-.powered-by {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--fg);
-  font-weight: 700;
-  transform: translateY(-22px);
-}
-
-.powered-by svg {
-  display: block;
-  height: 18px;
-  width: auto;
-}
-
-/* —— header + plus mark —— */
 .site-header {
   position: fixed;
   top: 0;
@@ -125,9 +95,9 @@ a:hover {
   z-index: 6;
   display: flex;
   align-items: center;
-  padding: 32px 24px;
+  padding: 28px 24px;
   font-family: var(--font);
-  font-weight: 700;
+  font-weight: 400;
   color: var(--fg);
 }
 
@@ -142,15 +112,16 @@ a:hover {
 .site-nav button,
 .site-nav a {
   font-size: 13px;
-  color: var(--fg);
-  opacity: 0.6;
+  font-weight: 400;
+  color: var(--muted);
   text-decoration: none;
 }
 
 .site-nav button:hover,
 .site-nav button.is-active,
 .site-nav a:hover {
-  opacity: 1;
+  color: var(--ink);
+  font-weight: 700;
 }
 
 @media (max-width: 768px) {
@@ -181,7 +152,7 @@ a:hover {
   top: 0;
   left: 50%;
   bottom: 0;
-  width: 320px;
+  width: 480px;
   transform: translateX(-50%);
   z-index: 2;
   pointer-events: none;
@@ -212,7 +183,7 @@ a:hover {
 }
 
 .page-container {
-  width: 420px;
+  width: 480px;
   position: relative;
   font-family: var(--font);
   font-size: 13px;
@@ -235,10 +206,10 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 0;
-  background: var(--panel);
-  border: 1.5px solid var(--line);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  border-radius: 15px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: none;
+  border-radius: 16px;
   overflow: hidden;
 }
 
@@ -246,7 +217,7 @@ a:hover {
   position: relative;
   background: transparent;
   border-radius: 0;
-  padding: 14px 22px;
+  padding: 12px var(--panel-x);
 }
 
 /* 1px border on a flex-centered panel lands on a half-pixel when height is odd → looks 2px */
@@ -278,7 +249,7 @@ a:hover {
   overflow: hidden;
   max-height: 70vh;
   border-radius: 0;
-  background: transparent;
+  background: var(--panel);
   -webkit-overflow-scrolling: touch;
 }
 
@@ -292,7 +263,7 @@ a:hover {
 }
 
 .main-content-inner {
-  padding: 16px 25px 18px;
+  padding: 16px var(--panel-x) 18px;
 }
 
 .main-content .tab-content {
@@ -303,9 +274,9 @@ a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
-  padding: 0 0 10px;
-  border-bottom: 1px dashed var(--dash);
+  gap: 8px;
+  padding: 0;
+  border-bottom: none;
   user-select: none;
 }
 
@@ -315,8 +286,8 @@ a:hover {
 
 .icon-home,
 .icon-page {
-  width: 20px;
-  height: 20px;
+  width: var(--hub-size);
+  height: var(--hub-size);
   display: block;
   flex-shrink: 0;
 }
@@ -325,8 +296,8 @@ a:hover {
 .icon-home svg,
 .icon-page svg {
   display: block;
-  width: 20px;
-  height: 20px;
+  width: var(--hub-size);
+  height: var(--hub-size);
   overflow: visible;
 }
 
@@ -358,26 +329,33 @@ a:hover {
   font-family: var(--font);
   font-size: 14px;
   line-height: 1.45em;
-  text-transform: capitalize;
   font-weight: 700;
-  margin-bottom: -3px;
-}
-
-.tab-title.is-version,
-.tab-title.is-brand {
-  text-transform: none;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
 }
 
 .tab-title.is-brand {
   letter-spacing: 0;
 }
 
-.panel-version {
+.beta {
   margin-left: auto;
-  text-transform: none;
-  letter-spacing: 0.05em;
-  color: var(--muted);
+  background-color: var(--panel);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: var(--font);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bold);
+  height: 22px;
+  padding: 0 10px;
+  line-height: 1;
+  border-radius: 999px;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--line);
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .panel-back {
@@ -470,7 +448,7 @@ a:hover {
   width: 100%;
   padding: 10px 0;
   border: 0;
-  border-bottom: 1px dashed var(--dash);
+  border-bottom: 1px solid var(--line);
   background: none;
   color: inherit;
   cursor: pointer;
@@ -513,7 +491,7 @@ a:hover {
 .fee-compare td {
   padding: 10px 0;
   text-align: left;
-  border-bottom: 1px dashed var(--dash);
+  border-bottom: 1px solid var(--line);
   vertical-align: middle;
 }
 
@@ -552,6 +530,61 @@ a:hover {
   display: list-item;
 }
 
+.reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.reviews-summary {
+  font-weight: 700;
+}
+
+.reviews-empty {
+  margin-top: 4px;
+}
+
+.reviews-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reviews-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.reviews-list li:last-child {
+  border-bottom: none;
+}
+
+.review-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 10px;
+  font-weight: 700;
+}
+
+.review-stars {
+  letter-spacing: 0.06em;
+}
+
+.review-date {
+  margin-left: auto;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.review-body {
+  font-weight: 400;
+}
+
 .wishlist-rank {
   margin: 8px 0 0;
   padding: 0;
@@ -564,7 +597,7 @@ a:hover {
   justify-content: space-between;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px dashed var(--dash);
+  border-bottom: 1px solid var(--line);
 }
 
 .wishlist-rank li:last-child {
@@ -583,7 +616,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 13px 14px 9px;
+  padding: 13px 18px 11px;
   text-align: center;
   text-decoration: none;
   border: 1px solid transparent;
@@ -592,7 +625,8 @@ a:hover {
   color: var(--on-ink);
   font-size: 13px;
   font-weight: 700;
-  text-transform: capitalize;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
   transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
 }
 

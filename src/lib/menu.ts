@@ -37,6 +37,8 @@ export type PageContent = {
 
 export const FIREFOX_URL =
   "https://addons.mozilla.org/en-US/firefox/addon/feedrice-sort-instagram-tiktok/";
+export const FIREFOX_REVIEWS_URL = `${FIREFOX_URL}reviews/`;
+export const REVIEWS_JSON = "/reviews.json";
 export const STRIPE_MONTHLY_URL = "https://buy.stripe.com/7sY28s804eUa9CGgzI3AY0f";
 export const STRIPE_ANNUAL_URL = "https://buy.stripe.com/4gM5kEdkodQ67uy83c3AY0g";
 export const SUPPORT_EMAIL = "esvictorg@gmail.com";
@@ -45,7 +47,7 @@ export const VERSION = "6.9";
 export const MENU_NODES: MenuNode[] = [
   {
     id: "docs",
-    title: "Docs",
+    title: "How it works",
     shape: "circle",
     body: "A browser extension that sorts Instagram, TikTok, and YouTube by the numbers that matter — then lets you export or download the result.",
     sections: [
@@ -130,56 +132,10 @@ export const MENU_NODES: MenuNode[] = [
     ],
   },
   {
-    id: "changelog",
-    title: "Changelog",
+    id: "reviews",
+    title: "Reviews",
     shape: "circle",
-    body: "What shipped in feed·rice.",
-    sections: [
-      {
-        heading: "v6.9",
-        items: [
-          "Larger Free / Pro badge in the header",
-          "Clearer “Billed $96/year · save 33%” text under the annual plan",
-          "Monthly ($12/mo) and Annual ($96/yr) subscribe options",
-        ],
-      },
-      {
-        heading: "v6.8",
-        items: [
-          "Pro is now a subscription — monthly or annual (replaces one-time purchase)",
-          "Manage subscription link opens Stripe billing portal",
-          "Daily license check — Pro turns off if subscription lapses",
-          "Lifetime keys still work for existing one-time buyers",
-          "Server supports subscription webhooks, billing portal, and inactive-subscription blocking",
-        ],
-      },
-      {
-        heading: "v6.7",
-        items: [
-          "License key remembered locally — no re-entering after every update",
-          "Auto-restore Pro on startup if the key is saved",
-          "Device-based activation — same browser re-validates without using another slot (up to 3 devices)",
-          "Server updated to track devices instead of a simple activation counter",
-        ],
-      },
-      {
-        heading: "v6.6",
-        items: [
-          "Sorting works again on Instagram and TikTok after platform changes",
-          "Instagram: added support for fetch-based loading (not just XHR)",
-          "TikTok: fixed infinite loading on large profiles; updated selectors for new layout; fixed double-fetch bug; pagination fallback if more pages don’t load",
-          "Requires Firefox 128+",
-        ],
-      },
-      {
-        heading: "v6.5",
-        items: [
-          "Fix for sorting stuck on loading — Instagram’s CSP blocked the old script injection",
-          "Sorting scripts now load in the page’s MAIN world (browser-injected, not DOM injection)",
-          "Same approach applied to TikTok for consistency",
-        ],
-      },
-    ],
+    body: "What people wrote on the Firefox add-on listing. Pulled live from AMO.",
   },
   {
     id: "support",

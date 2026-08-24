@@ -6,6 +6,8 @@ import {
   type MouseEvent,
 } from "react";
 import {
+  FIREFOX_REVIEWS_URL,
+  REVIEWS_JSON,
   getPage,
   VERSION,
   type MenuSection,
@@ -91,6 +93,111 @@ function Section({
   );
 }
 
+type ReviewRow = {
+  id: string;
+  score: number;
+  body: string | null;
+  created: string | null;
+  name: string;
+  url: string | null;
+};
+
+function stars(score: number) {
+  const n = Math.max(0, Math.min(5, Math.round(score)));
+  return `${"★".repeat(n)}${"☆".repeat(5 - n)}`;
+}
+
+function formatDate(iso: string | null) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function ReviewsList() {
+  const [data, setData] = useState<{
+    average: number | null;
+    count: number;
+    reviews: ReviewRow[];
+  } | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    fetch(REVIEWS_JSON, { signal: AbortSignal.timeout(12000) })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((payload) => {
+        setData({
+          average: typeof payload?.average === "number" ? payload.average : null,
+          count: Number(payload?.count) || 0,
+          reviews: Array.isArray(payload?.reviews) ? payload.reviews : [],
+        });
+      })
+      .catch(() => setFailed(true));
+  }, []);
+
+  if (failed) {
+    return (
+      <p className="reviews-empty">
+        Couldn’t load Firefox reviews.{" "}
+        <a href={FIREFOX_REVIEWS_URL} target="_blank" rel="noreferrer">
+          Open them on AMO
+        </a>
+        .
+      </p>
+    );
+  }
+
+  if (data == null) return <p className="reviews-empty">Loading…</p>;
+  if (!data.reviews.length) {
+    return <p className="reviews-empty">No Firefox reviews yet.</p>;
+  }
+
+  return (
+    <div className="reviews">
+      <p className="reviews-summary">
+        {data.average != null ? `${data.average.toFixed(1)} / 5` : "—"}
+        {` · ${data.count} review${data.count === 1 ? "" : "s"} on Firefox`}
+      </p>
+      <ol className="reviews-list">
+        {data.reviews.map((r) => (
+          <li key={r.id}>
+            <div className="review-meta">
+              <span className="review-stars" aria-label={`${r.score} out of 5`}>
+                {stars(r.score)}
+              </span>
+              {r.url ? (
+                <a href={r.url} target="_blank" rel="noreferrer">
+                  {r.name}
+                </a>
+              ) : (
+                <span>{r.name}</span>
+              )}
+              {r.created && (
+                <span className="review-date">{formatDate(r.created)}</span>
+              )}
+            </div>
+            {r.body && <p className="review-body">{r.body}</p>}
+          </li>
+        ))}
+      </ol>
+      <p className="page-link">
+        <a
+          href={FIREFOX_REVIEWS_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="index-link"
+        >
+          Read all on Firefox  →
+        </a>
+      </p>
+    </div>
+  );
+}
+
 function PageBody({
   page,
   isHome,
@@ -102,10 +209,10 @@ function PageBody({
 }) {
   const external = Boolean(page.href?.startsWith("http"));
   const sections = page.sections ?? [];
-  const [open, setOpen] = useState<Record<number, boolean>>({});
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    setOpen({});
+    setOpenIndex(null);
   }, [page.uri]);
 
   function goHref(href: string, e?: MouseEvent) {
@@ -118,12 +225,13 @@ function PageBody({
   return (
     <div className={`page-body${isHome ? " page-body-home" : ""}`}>
       <Paras text={page.description} />
+      {page.uri === "reviews" && <ReviewsList />}
       {sections.map((s, i) => (
         <Section
           key={s.heading ?? s.body?.slice(0, 24)}
           section={s}
-          open={Boolean(open[i])}
-          onToggle={() => setOpen((o) => ({ ...o, [i]: !o[i] }))}
+          open={openIndex === i}
+          onToggle={() => setOpenIndex((cur) => (cur === i ? null : i))}
         />
       ))}
       {page.ctas && page.ctas.length > 0 ? (
@@ -244,12 +352,10 @@ export default function DetailPanel({
           <div className="panel-heading">
             <div className="tab-titles page-header-titles">
               <span className="tab-icon icon-home" aria-hidden>
-                <img src="/icon.png" alt="" width={20} height={20} />
+                <img src="/icon.svg" alt="" width={16} height={16} />
               </span>
-              <span className={`tab-title${isHome ? " is-brand" : ""}`}>
-                {isHome ? "feed·rice" : page.title}
-              </span>
-              <span className="tab-title panel-version">v{VERSION}</span>
+              <span className="tab-title is-brand">feed·rice</span>
+              <span className="beta">v{VERSION}</span>
             </div>
           </div>
           <div

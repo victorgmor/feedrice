@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import DetailPanel from "./DetailPanel";
 import BgHole from "./BgHole";
-import { FIREFOX_URL, getPage, MENU_NODES } from "@/lib/menu";
+import { getPage, MENU_NODES } from "@/lib/menu";
 function pathToPageId(pathname: string): string {
   const id = pathname === "/" ? "/" : pathname.replace(/^\//, "");
   return getPage(id) ? id : "/";
@@ -63,16 +63,6 @@ export default function AppShell({ pathname: initialPath }: { pathname: string }
           )}
         </nav>
       </header>
-      <div className="topbar">
-        <a
-          className="powered-by"
-          href={FIREFOX_URL}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Add to Firefox
-        </a>
-      </div>
       <DetailPanel pageId={pageId} onPageChange={go} />
     </>
   );

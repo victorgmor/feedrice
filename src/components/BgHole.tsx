@@ -2,9 +2,13 @@ import { useEffect, useRef } from "react";
 
 // 21st.dev/@designali-in/components/vector-field
 const FILL = "rgba(17,17,17,0.38)";
-const PROXIMITY = 16; // ponytail: 8 melts a laptop
-const SIZE = 12;
-const GRAIN_W = 3.6;
+const PROXIMITY = 28; // ponytail: 8 melts a laptop
+const SIZE = 14;
+const GRAIN_PATH =
+  "M270.867,0.859c-53.963,6.222-60.129,90.996-85.451,117.894c-30.7,32.61-101.742,20.565-101.742,140.5C83.674,398.844,151.313,512,255.995,512c104.69,0,172.331-113.156,172.331-252.747C428.326,119.662,381.594-11.908,270.867,0.859z";
+const GRAIN_VIEW = 512;
+const GRAIN_CX = 256;
+const GRAIN_CY = 256;
 const PAD = 18;
 const IN_L = PROXIMITY;
 const IN_T = PROXIMITY;
@@ -68,38 +72,23 @@ function clipEnd(x1: number, y1: number, x2: number, y2: number, holes: Hole[]) 
   return end;
 }
 
-/** Pointed oval — fat in the middle, tapered ends. */
+/** Rice-grain mark from /icon.svg, rotated onto the field heading. */
 function fillGrain(
   ctx: CanvasRenderingContext2D,
+  path: Path2D,
   cx: number,
   cy: number,
   angle: number,
-  halfLen: number,
-  halfW: number,
+  len: number,
 ) {
-  const c = Math.cos(angle);
-  const s = Math.sin(angle);
-  const k = halfLen * 0.42;
-  ctx.beginPath();
-  ctx.moveTo(cx - halfLen * c, cy - halfLen * s);
-  ctx.bezierCurveTo(
-    cx - k * c + halfW * s,
-    cy - k * s - halfW * c,
-    cx + k * c + halfW * s,
-    cy + k * s - halfW * c,
-    cx + halfLen * c,
-    cy + halfLen * s,
-  );
-  ctx.bezierCurveTo(
-    cx + k * c - halfW * s,
-    cy + k * s + halfW * c,
-    cx - k * c - halfW * s,
-    cy - k * s + halfW * c,
-    cx - halfLen * c,
-    cy - halfLen * s,
-  );
-  ctx.closePath();
-  ctx.fill();
+  const s = len / GRAIN_VIEW;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(angle - Math.PI / 2);
+  ctx.scale(s, s);
+  ctx.translate(-GRAIN_CX, -GRAIN_CY);
+  ctx.fill(path);
+  ctx.restore();
 }
 
 export default function BgHole() {
@@ -110,6 +99,7 @@ export default function BgHole() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    const grain = new Path2D(GRAIN_PATH);
 
     const mouse = { x: innerWidth / 2, y: innerHeight / 2 };
     let pts: { x: number; y: number }[] = [];
@@ -139,8 +129,7 @@ export default function BgHole() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const panel = document.querySelector(".page-stack");
       const nav = document.querySelector(".site-nav");
-      const foot = document.querySelector(".powered-by");
-      for (const el of [panel, nav, foot]) {
+      for (const el of [panel, nav]) {
         if (el && !watched.has(el)) {
           ro.observe(el);
           watched.add(el);
@@ -148,8 +137,7 @@ export default function BgHole() {
       }
       const box = panel?.getBoundingClientRect();
       const navBox = nav?.getBoundingClientRect();
-      const footBox = foot?.getBoundingClientRect();
-      const next = `${innerWidth}x${innerHeight}:${box ? `${Math.round(box.left)}:${Math.round(box.top)}:${Math.round(box.width)}:${Math.round(box.height)}` : ""}:${navBox ? `${Math.round(navBox.left)}:${Math.round(navBox.top)}:${Math.round(navBox.width)}:${Math.round(navBox.height)}` : ""}:${footBox ? `${Math.round(footBox.left)}:${Math.round(footBox.top)}:${Math.round(footBox.width)}` : ""}`;
+      const next = `${innerWidth}x${innerHeight}:${box ? `${Math.round(box.left)}:${Math.round(box.top)}:${Math.round(box.width)}:${Math.round(box.height)}` : ""}:${navBox ? `${Math.round(navBox.left)}:${Math.round(navBox.top)}:${Math.round(navBox.width)}:${Math.round(navBox.height)}` : ""}`;
       if (next === key && pts.length) return;
       key = next;
       holes = [];
@@ -163,8 +151,6 @@ export default function BgHole() {
       }
       const navHole = holeFrom(nav);
       if (navHole) holes.push(navHole);
-      const footHole = holeFrom(foot);
-      if (footHole) holes.push(footHole);
       pts = holes.length ? pointsAround(w, h, holes) : [];
     };
 
@@ -183,7 +169,7 @@ export default function BgHole() {
         const dy = end.y - p.y;
         const len = Math.hypot(dx, dy);
         if (len < 2) continue;
-        fillGrain(ctx, p.x + dx / 2, p.y + dy / 2, a, len / 2, GRAIN_W / 2);
+        fillGrain(ctx, grain, p.x + dx / 2, p.y + dy / 2, a, len);
       }
     };
 
