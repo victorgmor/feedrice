@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import DetailPanel from "./DetailPanel";
-import BgHole from "./BgHole";
 import { getPage, MENU_NODES } from "@/lib/menu";
 function pathToPageId(pathname: string): string {
   const id = pathname === "/" ? "/" : pathname.replace(/^\//, "");
@@ -30,12 +29,12 @@ export default function AppShell({ pathname: initialPath }: { pathname: string }
 
   return (
     <>
-      <BgHole />
       <header className="site-header">
-        <nav className="site-nav">
+        <nav className="site-nav" aria-label="Primary">
           <button
             type="button"
             className={pageId === "/" ? "is-active" : undefined}
+            aria-current={pageId === "/" ? "page" : undefined}
             onClick={() => go("/")}
           >
             Home
@@ -55,6 +54,7 @@ export default function AppShell({ pathname: initialPath }: { pathname: string }
                 key={n.id}
                 type="button"
                 className={pageId === n.id ? "is-active" : undefined}
+                aria-current={pageId === n.id ? "page" : undefined}
                 onClick={() => go(n.id)}
               >
                 {n.title}

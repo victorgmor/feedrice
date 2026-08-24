@@ -41,19 +41,19 @@ export const FIREFOX_REVIEWS_URL = `${FIREFOX_URL}reviews/`;
 export const REVIEWS_JSON = "/reviews.json";
 export const SUCCESS_KEY_JSON = "/success-key.json";
 export const STRIPE_MONTHLY_URL = "https://buy.stripe.com/7sY28s804eUa9CGgzI3AY0f";
-export const STRIPE_ANNUAL_URL = "https://buy.stripe.com/4gM5kEdkodQ67uy83c3AY0g";
+export const STRIPE_ANNUAL_URL = "https://buy.stripe.com/8x2bJ2cgk8vM9CG3MW3AY0h";
 export const SUPPORT_EMAIL = "esvictorg@gmail.com";
 export const VERSION = "6.9";
 
 export const MENU_NODES: MenuNode[] = [
   {
-    id: "docs",
+    id: "how-it-works",
     title: "How it works",
     shape: "circle",
     body: "A browser extension that sorts Instagram, TikTok, and YouTube by the numbers that matter — then lets you export or download the result.",
     sections: [
       {
-        heading: "How it works",
+        heading: "Get started",
         body: "Open Instagram, TikTok, or YouTube, then click the feed·rice icon in the toolbar. Pick how many items to scan and the metric to sort by. The page reorders in place.\n\nFree covers the latest 25 items. Pro unlocks larger batches, exports, and downloads.",
       },
       {
@@ -114,7 +114,7 @@ export const MENU_NODES: MenuNode[] = [
     body: "Start free on the latest 25 items. Go Pro for unlimited sorts, exports, and downloads.",
     sections: [
       {
-        body: "Pay monthly, or save 33% on the annual plan.",
+        body: "Pay monthly, or save 75% on the annual plan.",
         compare: {
           head: ["", "Free", "Pro"],
           rows: [
@@ -122,13 +122,13 @@ export const MENU_NODES: MenuNode[] = [
             ["Sort metrics", "Included", "Included"],
             ["CSV / JSON / Excel", "—", "Included"],
             ["Instagram downloads", "—", "Included"],
-            ["Price", "$0", "$12/mo or $8/mo billed yearly"],
+            ["Price", "$0", "$12/mo or $3/mo billed yearly"],
           ],
         },
       },
     ],
     ctas: [
-      { href: STRIPE_ANNUAL_URL, label: "Annual — $8/mo", icon: "plus" },
+      { href: STRIPE_ANNUAL_URL, label: "Annual — $3/mo", icon: "plus" },
       { href: STRIPE_MONTHLY_URL, label: "Monthly — $12", ghost: true },
     ],
   },
@@ -143,8 +143,6 @@ export const MENU_NODES: MenuNode[] = [
     title: "Support",
     shape: "circle",
     body: `Questions, bugs, or a stuck license — write to ${SUPPORT_EMAIL}.\n\nInclude the site you were on (Instagram, TikTok, or YouTube) and what you clicked. That is usually enough to reproduce it.`,
-    href: `mailto:${SUPPORT_EMAIL}`,
-    hrefLabel: `${SUPPORT_EMAIL}  →`,
   },
 ];
 
@@ -179,6 +177,8 @@ export const PAGES: Record<string, PageContent> = {
     ]),
   ),
 };
+
+PAGES.docs = PAGES["how-it-works"];
 
 export function getPage(id: string | null): PageContent | null {
   if (!id) return null;

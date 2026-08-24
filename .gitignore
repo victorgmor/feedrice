@@ -6,3 +6,5 @@ public/img
 public/fonts
 public/favicon.png
 public/og.png
+.vercel
+.env*

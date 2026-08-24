@@ -16,24 +16,32 @@ import {
   type PageContent,
 } from "@/lib/menu";
 
+function linkMail(text: string) {
+  const parts = text.split(SUPPORT_EMAIL);
+  if (parts.length === 1) return text;
+  return parts.flatMap((part, i) =>
+    i === 0
+      ? [part]
+      : [
+          <a key={i} href={`mailto:${SUPPORT_EMAIL}`}>
+            {SUPPORT_EMAIL}
+          </a>,
+          part,
+        ],
+  );
+}
+
 function Paras({ text }: { text: string }) {
   return text
     .split(/\n\n+/)
     .filter(Boolean)
-    .map((block, i) => <p key={i}>{block}</p>);
+    .map((block, i) => <p key={i}>{linkMail(block)}</p>);
 }
 
-function Section({
-  section,
-  open,
-  onToggle,
-}: {
-  section: MenuSection;
-  open: boolean;
-  onToggle: () => void;
-}) {
-  const body = (
-    <>
+function Section({ section }: { section: MenuSection }) {
+  return (
+    <section className="page-section">
+      {section.heading && <h2 className="page-section-title">{section.heading}</h2>}
       {section.body && <Paras text={section.body} />}
       {section.compare && (
         <table className="fee-compare">
@@ -64,34 +72,7 @@ function Section({
           ))}
         </ul>
       )}
-    </>
-  );
-
-  if (!section.heading) {
-    return <section className="page-section">{body}</section>;
-  }
-
-  return (
-    <div className={`page-accordion${open ? " is-open" : ""}`}>
-      <button
-        type="button"
-        className="page-accordion-title"
-        aria-expanded={open}
-        onClick={onToggle}
-      >
-        <span
-          className={`tab-title${/^v?\d/.test(section.heading) ? " is-version" : ""}`}
-        >
-          {section.heading}
-        </span>
-        <span className="tab-indicator" aria-hidden />
-      </button>
-      <div className="page-accordion-panel">
-        <div className="page-accordion-clip">
-          <div className="page-accordion-body">{body}</div>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }
 
@@ -311,11 +292,6 @@ function PageBody({
 }) {
   const external = Boolean(page.href?.startsWith("http"));
   const sections = page.sections ?? [];
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    setOpenIndex(null);
-  }, [page.uri]);
 
   function goHref(href: string, e?: MouseEvent) {
     if (href.startsWith("http") || href === "#") return;
@@ -330,12 +306,7 @@ function PageBody({
       {page.uri === "success" && <LicenseSuccess />}
       {page.uri === "reviews" && <ReviewsList />}
       {sections.map((s, i) => (
-        <Section
-          key={s.heading ?? s.body?.slice(0, 24)}
-          section={s}
-          open={openIndex === i}
-          onToggle={() => setOpenIndex((cur) => (cur === i ? null : i))}
-        />
+        <Section key={s.heading ?? s.body?.slice(0, 24)} section={s} />
       ))}
       {page.ctas && page.ctas.length > 0 ? (
         <div className="launch-btns">
@@ -425,7 +396,7 @@ export default function DetailPanel({
   const [panelH, setPanelH] = useState<number | undefined>(undefined);
   const [sizing, setSizing] = useState(false);
 
-  // Page change: animate height, then let CSS auto-size (accordions).
+  // Page change: animate height, then let CSS auto-size.
   useLayoutEffect(() => {
     const shell = shellRef.current;
     const inner = innerRef.current;
@@ -457,7 +428,9 @@ export default function DetailPanel({
               <span className="tab-icon icon-home" aria-hidden>
                 <img src="/icon.svg" alt="" width={16} height={16} />
               </span>
-              <span className="tab-title is-brand">feed·rice</span>
+              <span className={`tab-title${isHome ? " is-brand" : ""}`}>
+                {isHome ? "feed·rice" : page.title}
+              </span>
               <span className="beta">v{VERSION}</span>
             </div>
           </div>

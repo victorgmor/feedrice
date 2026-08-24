@@ -94,56 +94,57 @@ a:hover {
   right: 0;
   z-index: 6;
   display: flex;
-  align-items: center;
-  padding: 28px 24px;
+  justify-content: center;
+  padding: 18px 16px 0;
   font-family: var(--font);
-  font-weight: 400;
-  color: var(--fg);
 }
 
 .site-nav {
-  position: absolute;
-  left: 50%;
   display: flex;
-  gap: 22px;
-  transform: translateX(-50%) translateY(16px);
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+  max-width: 100%;
+  padding: 4px;
+  background: rgb(255 255 255 / 86%);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
 }
 
 .site-nav button,
 .site-nav a {
-  font-size: 13px;
-  font-weight: 400;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
   color: var(--muted);
   text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 999px;
 }
 
 .site-nav button:hover,
-.site-nav button.is-active,
 .site-nav a:hover {
   color: var(--ink);
-  font-weight: 700;
+  background: var(--hover);
+  text-decoration: none;
+}
+
+.site-nav button.is-active {
+  color: var(--on-ink);
+  background: var(--ink);
 }
 
 @media (max-width: 768px) {
   .site-header {
-    padding: 24px 16px;
+    padding: 12px 10px 0;
   }
-  .site-nav {
-    gap: 12px;
+
+  .site-nav button,
+  .site-nav a {
+    padding: 7px 9px;
+    font-size: 11px;
   }
-}
-
-.bg-hole {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.bg-hole canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
 }
 
 /* —— info panel —— */
@@ -206,7 +207,8 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 0;
-  background: var(--paper);
+  background: rgb(255 255 255 / 86%);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--line);
   box-shadow: none;
   border-radius: 16px;
@@ -218,25 +220,7 @@ a:hover {
   background: transparent;
   border-radius: 0;
   padding: 12px var(--panel-x);
-}
-
-/* 1px border on a flex-centered panel lands on a half-pixel when height is odd → looks 2px */
-.panel-heading::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--line);
-  pointer-events: none;
-  transform-origin: bottom;
-}
-
-@media (min-resolution: 2dppx) {
-  .panel-heading::after {
-    transform: scaleY(0.5);
-  }
+  box-shadow: inset 0 -1px 0 var(--line);
 }
 
 .panel-heading .tab-titles {
@@ -249,7 +233,7 @@ a:hover {
   overflow: hidden;
   max-height: 70vh;
   border-radius: 0;
-  background: var(--panel);
+  background: rgb(255 255 255 / 92%);
   -webkit-overflow-scrolling: touch;
 }
 
@@ -328,9 +312,10 @@ a:hover {
 .tab-title {
   font-family: var(--font);
   font-size: 14px;
-  line-height: 1.45em;
+  line-height: 1;
   font-weight: 700;
   letter-spacing: 0;
+  transform: translateY(2px);
 }
 
 .tab-title.is-brand {
@@ -339,20 +324,20 @@ a:hover {
 
 .beta {
   margin-left: auto;
-  background-color: var(--panel);
+  background-color: transparent;
   font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-weight: 500;
+  text-transform: none;
   font-family: var(--font);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--bold);
+  color: var(--muted);
   height: 22px;
-  padding: 0 10px;
+  padding: 0 8px;
   line-height: 1;
   border-radius: 999px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   border: 1px solid var(--line);
   flex-shrink: 0;
   box-sizing: border-box;
@@ -371,38 +356,18 @@ a:hover {
   position: relative;
 }
 
-.panel-back::after,
-.tab-indicator::after {
+.panel-back::after {
   content: "←";
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 18px;
   display: block;
   text-align: center;
-  font-weight: 300;
-}
-
-.panel-back::after {
   font-weight: 500;
 }
 
 .panel-back:hover {
   opacity: 0.55;
-}
-
-.tab-indicator {
-  margin-left: auto;
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-}
-
-.tab-indicator::after {
-  content: "+";
-}
-
-.page-accordion.is-open > .page-accordion-title .tab-indicator::after {
-  content: "–";
 }
 
 .tab-content {
@@ -433,49 +398,12 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 6px;
+  margin-top: 16px;
 }
 
-.page-accordion {
-  width: 100%;
-}
-
-.page-accordion-title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 10px 0;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  background: none;
-  color: inherit;
-  cursor: pointer;
-  user-select: none;
-  text-align: left;
-}
-
-.page-accordion-panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 400ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.page-accordion.is-open > .page-accordion-panel {
-  grid-template-rows: 1fr;
-}
-
-.page-accordion-clip {
-  min-height: 0;
-  overflow: hidden;
-}
-
-.page-accordion-body {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 10px 0 18px;
+.page-section-title {
+  font-weight: 700;
+  font-size: 13px;
 }
 
 .fee-compare {
