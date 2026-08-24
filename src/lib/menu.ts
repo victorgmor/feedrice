@@ -138,19 +138,45 @@ export const MENU_NODES: MenuNode[] = [
       {
         heading: "v6.9",
         items: [
-          "YouTube Videos & Shorts: sort by views or oldest",
-          "YouTube export to CSV, JSON, and Excel",
-          "Pro license checks and Stripe customer portal",
+          "Larger Free / Pro badge in the header",
+          "Clearer “Billed $96/year · save 33%” text under the annual plan",
+          "Monthly ($12/mo) and Annual ($96/yr) subscribe options",
+        ],
+      },
+      {
+        heading: "v6.8",
+        items: [
+          "Pro is now a subscription — monthly or annual (replaces one-time purchase)",
+          "Manage subscription link opens Stripe billing portal",
+          "Daily license check — Pro turns off if subscription lapses",
+          "Lifetime keys still work for existing one-time buyers",
+          "Server supports subscription webhooks, billing portal, and inactive-subscription blocking",
+        ],
+      },
+      {
+        heading: "v6.7",
+        items: [
+          "License key remembered locally — no re-entering after every update",
+          "Auto-restore Pro on startup if the key is saved",
+          "Device-based activation — same browser re-validates without using another slot (up to 3 devices)",
+          "Server updated to track devices instead of a simple activation counter",
         ],
       },
       {
         heading: "v6.6",
         items: [
-          "Instagram Posts & Reels sorting",
-          "TikTok grid sorting",
-          "Export to Excel, CSV, and JSON",
-          "One-click Instagram downloads",
-          "Runs locally — no feed uploaded",
+          "Sorting works again on Instagram and TikTok after platform changes",
+          "Instagram: added support for fetch-based loading (not just XHR)",
+          "TikTok: fixed infinite loading on large profiles; updated selectors for new layout; fixed double-fetch bug; pagination fallback if more pages don’t load",
+          "Requires Firefox 128+",
+        ],
+      },
+      {
+        heading: "v6.5",
+        items: [
+          "Fix for sorting stuck on loading — Instagram’s CSP blocked the old script injection",
+          "Sorting scripts now load in the page’s MAIN world (browser-injected, not DOM injection)",
+          "Same approach applied to TikTok for consistency",
         ],
       },
     ],
