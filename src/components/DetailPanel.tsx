@@ -9,6 +9,7 @@ import {
   FIREFOX_REVIEWS_URL,
   REVIEWS_JSON,
   SUCCESS_KEY_JSON,
+  LICENSE_LOOKUP_JSON,
   SUPPORT_EMAIL,
   VERSION_JSON,
   getPage,
@@ -44,6 +45,18 @@ function Section({ section }: { section: MenuSection }) {
     <section className="page-section">
       {section.heading && <h2 className="page-section-title">{section.heading}</h2>}
       {section.body && <Paras text={section.body} />}
+      {section.href && (
+        <p className="page-link">
+          <a
+            href={section.href}
+            target={section.href.startsWith("http") ? "_blank" : undefined}
+            rel={section.href.startsWith("http") ? "noreferrer" : undefined}
+            className="index-link"
+          >
+            {section.hrefLabel ?? section.href}
+          </a>
+        </p>
+      )}
       {section.compare && (
         <table className="fee-compare">
           <thead>
@@ -199,86 +212,36 @@ function ReviewsList() {
   );
 }
 
-function LicenseSuccess() {
-  const [licenseKey, setLicenseKey] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
+function checkoutSessionId() {
+  if (typeof window === "undefined") return null;
+  const sessionId = new URLSearchParams(window.location.search).get("session_id");
+  return sessionId?.startsWith("cs_") ? sessionId : null;
+}
 
-  useEffect(() => {
-    const sessionId = new URLSearchParams(window.location.search).get(
-      "session_id",
-    );
-    if (!sessionId?.startsWith("cs_")) {
-      setError(
-        "Missing checkout session. If you just paid, check your email or write to us.",
-      );
-      return;
-    }
-
-    let cancelled = false;
-    let timer = 0;
-
-    const poll = () => {
-      fetch(`${SUCCESS_KEY_JSON}?session_id=${encodeURIComponent(sessionId)}`, {
-        signal: AbortSignal.timeout(12000),
-      })
-        .then((r) => (r.ok || r.status === 400 ? r.json() : Promise.reject()))
-        .then((payload) => {
-          if (cancelled) return;
-          if (typeof payload?.licenseKey === "string" && payload.licenseKey) {
-            setLicenseKey(payload.licenseKey);
-            return;
-          }
-          timer = window.setTimeout(poll, 2000);
-        })
-        .catch(() => {
-          if (!cancelled) timer = window.setTimeout(poll, 2000);
-        });
-    };
-
-    poll();
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timer);
-    };
-  }, []);
-
-  async function copyKey() {
-    if (!licenseKey) return;
-    try {
-      await navigator.clipboard.writeText(licenseKey);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch {
-      setCopied(false);
-    }
-  }
-
-  if (error) {
-    return (
-      <div className="license-success">
-        <p>{error}</p>
-        <p>
-          <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
-        </p>
-      </div>
-    );
-  }
-
+function LicenseKeyBlock({
+  licenseKey,
+  copied,
+  onCopy,
+}: {
+  licenseKey: string;
+  copied: boolean;
+  onCopy: () => void;
+}) {
   return (
-    <div className="license-success">
-      {licenseKey ? (
-        <>
-          <p className="license-key-box">{licenseKey}</p>
-          <div className="launch-btns">
-            <button type="button" className="launch-btn" onClick={copyKey}>
-              {copied ? "Copied!" : "Copy key"}
-            </button>
-          </div>
-        </>
-      ) : (
-        <p className="reviews-empty">Generating your license key…</p>
-      )}
+    <>
+      <p className="license-key-box">{licenseKey}</p>
+      <div className="launch-btns">
+        <button type="button" className="launch-btn" onClick={onCopy}>
+          {copied ? "Copied!" : "Copy key"}
+        </button>
+      </div>
+    </>
+  );
+}
+
+function LicenseActivateHelp() {
+  return (
+    <>
       <div className="page-section">
         <p className="page-lead">How to activate:</p>
         <ol className="page-steps">
@@ -295,6 +258,139 @@ function LicenseSuccess() {
         Pro subscription · up to 3 browsers · Manage billing from the extension.
         Need help? <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
       </p>
+    </>
+  );
+}
+
+function LicenseSuccess({ mode }: { mode: "lookup" | "checkout" }) {
+  const [licenseKey, setLicenseKey] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [email, setEmail] = useState("");
+  const [checking, setChecking] = useState(false);
+
+  useEffect(() => {
+    if (mode !== "checkout") return;
+    const sessionId = checkoutSessionId();
+    if (!sessionId) {
+      setError("Missing checkout session. If you just paid, check License in the menu or write to us.");
+      return;
+    }
+
+    let cancelled = false;
+    let timer = 0;
+
+    const poll = () => {
+      fetch(`${SUCCESS_KEY_JSON}?session_id=${encodeURIComponent(sessionId)}`, {
+        signal: AbortSignal.timeout(12000),
+      })
+        .then((r) => (r.ok || r.status === 400 ? r.json() : Promise.reject()))
+        .then((payload) => {
+          if (cancelled) return;
+          if (typeof payload?.licenseKey === "string" && payload.licenseKey) {
+            setLicenseKey(payload.licenseKey);
+            setError(null);
+            return;
+          }
+          timer = window.setTimeout(poll, 2000);
+        })
+        .catch(() => {
+          if (!cancelled) timer = window.setTimeout(poll, 2000);
+        });
+    };
+
+    poll();
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [mode]);
+
+  async function copyKey() {
+    if (!licenseKey) return;
+    try {
+      await navigator.clipboard.writeText(licenseKey);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  }
+
+  async function lookupKey(event: { preventDefault(): void }) {
+    event.preventDefault();
+    const next = email.trim();
+    if (!next) {
+      setError("Enter the email you used to subscribe.");
+      return;
+    }
+
+    setChecking(true);
+    setError(null);
+    try {
+      const res = await fetch(LICENSE_LOOKUP_JSON, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: next }),
+        signal: AbortSignal.timeout(15000),
+      });
+      const payload = await res.json();
+      if (typeof payload?.licenseKey === "string" && payload.licenseKey) {
+        setLicenseKey(payload.licenseKey);
+        setError(null);
+      } else {
+        setLicenseKey(null);
+        setError(
+          typeof payload?.error === "string"
+            ? payload.error
+            : "No license for that email.",
+        );
+      }
+    } catch {
+      setLicenseKey(null);
+      setError("Could not look up that email. Try again.");
+    } finally {
+      setChecking(false);
+    }
+  }
+
+  if (mode === "checkout") {
+    return (
+      <div className="license-success">
+        {licenseKey ? (
+          <LicenseKeyBlock licenseKey={licenseKey} copied={copied} onCopy={copyKey} />
+        ) : error ? (
+          <p className="license-lookup-error">{error}</p>
+        ) : (
+          <p className="reviews-empty">Generating your license key…</p>
+        )}
+        <LicenseActivateHelp />
+      </div>
+    );
+  }
+
+  return (
+    <div className="license-success">
+      <form className="license-lookup" onSubmit={lookupKey}>
+        <input
+          type="email"
+          name="email"
+          autoComplete="email"
+          placeholder="Billing email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          className="license-lookup-input"
+        />
+        <button type="submit" className="launch-btn" disabled={checking}>
+          {checking ? "Checking…" : "Check"}
+        </button>
+      </form>
+      {licenseKey ? (
+        <LicenseKeyBlock licenseKey={licenseKey} copied={copied} onCopy={copyKey} />
+      ) : error ? (
+        <p className="license-lookup-error">{error}</p>
+      ) : null}
+      <LicenseActivateHelp />
     </div>
   );
 }
@@ -321,7 +417,8 @@ function PageBody({
   return (
     <div className={`page-body${isHome ? " page-body-home" : ""}`}>
       <Paras text={page.description} />
-      {page.uri === "success" && <LicenseSuccess />}
+      {page.uri === "success" && <LicenseSuccess mode="checkout" />}
+      {page.uri === "license" && <LicenseSuccess mode="lookup" />}
       {page.uri === "reviews" && <ReviewsList />}
       {sections.map((s, i) => (
         <Section key={s.heading ?? s.body?.slice(0, 24)} section={s} />
@@ -407,6 +504,8 @@ export default function DetailPanel({
 }) {
   const page = getPage(pageId) ?? getPage("/")!;
   const isHome = pageId === "/";
+  const isCheckout = page.uri === "success";
+  const brandTitle = isHome || isCheckout;
   const shellRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const prevH = useRef(0);
@@ -447,8 +546,8 @@ export default function DetailPanel({
               <span className="tab-icon icon-home" aria-hidden>
                 <img src="/icon.svg" alt="" width={16} height={16} />
               </span>
-              <span className={`tab-title${isHome ? " is-brand" : ""}`}>
-                {isHome ? "feed·rice" : page.title}
+              <span className={`tab-title${brandTitle ? " is-brand" : ""}`}>
+                {brandTitle ? "feed·rice" : page.title}
               </span>
               <span className="beta">v{version}</span>
             </div>

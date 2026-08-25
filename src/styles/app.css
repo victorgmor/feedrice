@@ -622,6 +622,41 @@ a:hover {
   gap: 12px;
 }
 
+.license-lookup {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.license-lookup-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 12px 14px 10px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.license-lookup-input:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+.license-lookup .launch-btn {
+  flex: 0 0 auto;
+  min-width: 96px;
+}
+
+.license-lookup-error {
+  color: var(--muted);
+}
+
 .license-key-box {
   margin: 2px 0 0;
   padding: 12px 14px;

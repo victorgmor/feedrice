@@ -3,6 +3,8 @@ export type MenuSection = {
   heading?: string;
   body?: string;
   items?: string[];
+  href?: string;
+  hrefLabel?: string;
   /** 3-col comparison: [label, ours, theirs] */
   compare?: { head: [string, string, string]; rows: [string, string, string][] };
 };
@@ -41,9 +43,11 @@ export const FIREFOX_REVIEWS_URL = `${FIREFOX_URL}reviews/`;
 export const REVIEWS_JSON = "/reviews.json";
 export const VERSION_JSON = "/version.json";
 export const SUCCESS_KEY_JSON = "/success-key.json";
+export const LICENSE_LOOKUP_JSON = "/license-lookup.json";
 export const STRIPE_MONTHLY_URL = "https://buy.stripe.com/7sY28s804eUa9CGgzI3AY0f";
 export const STRIPE_ANNUAL_URL = "https://buy.stripe.com/8x2bJ2cgk8vM9CG3MW3AY0h";
 export const SUPPORT_EMAIL = "esvictorg@gmail.com";
+export const HOW_IT_WORKS_VIDEO_URL = "https://youtu.be/49WtCqrZTvo";
 export const VERSION = "6.14";
 
 export const MENU_NODES: MenuNode[] = [
@@ -56,6 +60,8 @@ export const MENU_NODES: MenuNode[] = [
       {
         heading: "Get started",
         body: "Open Instagram, TikTok, or YouTube, then click the feed·rice icon in the toolbar. Pick how many items to scan and the metric to sort by. The page reorders in place.\n\nFree covers the latest 25 items. Pro unlocks larger batches, exports, and downloads.",
+        href: HOW_IT_WORKS_VIDEO_URL,
+        hrefLabel: "Watch the video",
       },
       {
         heading: "Instagram",
@@ -134,6 +140,12 @@ export const MENU_NODES: MenuNode[] = [
     ],
   },
   {
+    id: "license",
+    title: "License",
+    shape: "circle",
+    body: "Enter the email you used to subscribe and we’ll show your license key.",
+  },
+  {
     id: "reviews",
     title: "Reviews",
     shape: "circle",
@@ -148,11 +160,6 @@ export const MENU_NODES: MenuNode[] = [
 ];
 
 export const PAGES: Record<string, PageContent> = {
-  success: {
-    title: "feed·rice",
-    uri: "success",
-    description: "Thanks for subscribing to feed·rice Pro. Here is your license key.",
-  },
   "/": {
     title: "feed·rice",
     uri: "/",
@@ -180,6 +187,11 @@ export const PAGES: Record<string, PageContent> = {
 };
 
 PAGES.docs = PAGES["how-it-works"];
+PAGES.success = {
+  title: "feed·rice",
+  uri: "success",
+  description: "Thanks for subscribing to feed·rice Pro. Here is your license key.",
+};
 
 export function getPage(id: string | null): PageContent | null {
   if (!id) return null;
