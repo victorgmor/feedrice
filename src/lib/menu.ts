@@ -48,7 +48,7 @@ export const STRIPE_MONTHLY_URL = "https://buy.stripe.com/7sY28s804eUa9CGgzI3AY0
 export const STRIPE_ANNUAL_URL = "https://buy.stripe.com/8x2bJ2cgk8vM9CG3MW3AY0h";
 export const SUPPORT_EMAIL = "esvictorg@gmail.com";
 export const HOW_IT_WORKS_VIDEO_URL = "https://youtu.be/49WtCqrZTvo";
-export const VERSION = "6.14";
+export const VERSION = "6.17";
 
 export const MENU_NODES: MenuNode[] = [
   {
@@ -107,6 +107,8 @@ export const MENU_NODES: MenuNode[] = [
           "License checks talk only to our license server when you activate or renew Pro.",
           "We do not sell personal data.",
         ],
+        href: "/privacy",
+        hrefLabel: "Full privacy policy",
       },
       {
         heading: "Terms",
@@ -156,6 +158,95 @@ export const MENU_NODES: MenuNode[] = [
     title: "Support",
     shape: "circle",
     body: `Questions, bugs, or a stuck license — write to ${SUPPORT_EMAIL}.\n\nInclude the site you were on (Instagram, TikTok, or YouTube) and what you clicked. That is usually enough to reproduce it.`,
+    href: "/privacy",
+    hrefLabel: "Privacy policy",
+  },
+  {
+    id: "privacy",
+    title: "Privacy",
+    shape: "circle",
+    body: "Last updated: August 26, 2026.\n\nfeed·rice values your privacy. This policy explains what we collect, how we use it, and your rights when you use the extension or this site.",
+    sections: [
+      {
+        heading: "Information we collect",
+        body: "We collect a limited set of information to run Pro licenses and support:",
+        items: [
+          "Billing email — from Stripe checkout, or when you look up your key on this site",
+          "License key — created after you subscribe, used to activate Pro",
+          "Device id — a random id stored in the extension, sent when you activate so one key can cover up to 3 browsers",
+          "Subscription status and plan — so Pro stays in sync with Stripe",
+          "Checkout session id — maps a Stripe payment to your license key",
+          "Lookup IP — kept for about two minutes to rate-limit email lookups",
+          "Optional issue reports — if you send one: page URL, extension version, device id, browser info, and what you wrote",
+        ],
+      },
+      {
+        heading: "What we do not collect",
+        body: "We do not collect or store your browsing history, Instagram, TikTok, or YouTube content, posts viewed, likes, comments, or account passwords.\n\nSorting, exporting, and downloads run on the page you already opened. That feed data stays in your browser. We do not upload it.",
+      },
+      {
+        heading: "How we use the information",
+        body: "Your data is used only to:",
+        items: [
+          "Create, look up, and activate a Pro license",
+          "Limit a key to 3 browsers",
+          "Keep subscription status current",
+          "Receive optional issue reports",
+          "Respond when you write to support",
+        ],
+      },
+      {
+        heading: "We do not sell data",
+        body: "We never sell, share, or rent your personal information. Third parties below only get what they need to do their job.",
+      },
+      {
+        heading: "Firefox permissions",
+        body: "The extension asks for storage, tabs, alarms, and downloads, plus access to Instagram, TikTok, our license server, and the report form. Those permissions exist so we can sort the page you opened, save settings, download files you asked for, and check a license. They do not let us read your browsing history or other sites.",
+      },
+      {
+        heading: "Third-party services",
+        body: "We use a few providers to make the product work:",
+        items: [
+          "Stripe — payments, receipts, and billing portal",
+          "Cloudflare Workers and KV — license checks and storage",
+          "Vercel — this website",
+          "Web3Forms — optional issue reports you send",
+          "Mozilla Add-ons — the public listing and reviews",
+        ],
+      },
+      {
+        heading: "Storage and security",
+        body: "License records live in Cloudflare KV. Payment card details are handled by Stripe, not by us. Settings and the device id stay in your Firefox storage.",
+      },
+      {
+        heading: "Data retention",
+        body: "We keep license data while the subscription is needed to provide Pro, or as required by law. Rate-limit records expire in about two minutes. Checkout session maps are leftovers after payment.\n\nIf you ask us to delete your data, we will remove your license record from our systems.",
+      },
+      {
+        heading: "Your rights",
+        body: `You can ask us to delete or correct your data at any time by writing to ${SUPPORT_EMAIL}. We will respond in a reasonable time.\n\nIf you are in the European Union, we process this information on the basis of legitimate interest and your consent where required (GDPR).`,
+      },
+      {
+        heading: "Children",
+        body: "feed·rice is not directed at children under 13. We do not knowingly collect their personal information. If you believe a child has given us data, write to us and we will delete it.",
+      },
+      {
+        heading: "Analytics and cookies",
+        body: "feed·rice does not use Google Analytics, advertising cookies, or tracking scripts. We do not collect data about your browsing or how you use Instagram, TikTok, or YouTube.",
+      },
+      {
+        heading: "Data controller",
+        body: `The person responsible for this information is the creator of feed·rice.\n\nEmail: ${SUPPORT_EMAIL}`,
+      },
+      {
+        heading: "Changes",
+        body: "We may update this policy. The current version will always be at feedrice.xyz/privacy.",
+      },
+      {
+        heading: "Contact",
+        body: `Questions about this policy or your data: ${SUPPORT_EMAIL}`,
+      },
+    ],
   },
 ];
 

@@ -40,7 +40,14 @@ function Paras({ text }: { text: string }) {
     .map((block, i) => <p key={i}>{linkMail(block)}</p>);
 }
 
-function Section({ section }: { section: MenuSection }) {
+function Section({
+  section,
+  onNavigate,
+}: {
+  section: MenuSection;
+  onNavigate?: (href: string, e?: MouseEvent) => void;
+}) {
+  const external = Boolean(section.href?.startsWith("http"));
   return (
     <section className="page-section">
       {section.heading && <h2 className="page-section-title">{section.heading}</h2>}
@@ -49,9 +56,10 @@ function Section({ section }: { section: MenuSection }) {
         <p className="page-link">
           <a
             href={section.href}
-            target={section.href.startsWith("http") ? "_blank" : undefined}
-            rel={section.href.startsWith("http") ? "noreferrer" : undefined}
+            target={external ? "_blank" : undefined}
+            rel={external ? "noreferrer" : undefined}
             className="index-link"
+            onClick={(e) => onNavigate?.(section.href!, e)}
           >
             {section.hrefLabel ?? section.href}
           </a>
@@ -421,7 +429,11 @@ function PageBody({
       {page.uri === "license" && <LicenseSuccess mode="lookup" />}
       {page.uri === "reviews" && <ReviewsList />}
       {sections.map((s, i) => (
-        <Section key={s.heading ?? s.body?.slice(0, 24)} section={s} />
+        <Section
+          key={s.heading ?? s.body?.slice(0, 24)}
+          section={s}
+          onNavigate={goHref}
+        />
       ))}
       {page.ctas && page.ctas.length > 0 ? (
         <div className="launch-btns">
