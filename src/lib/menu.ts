@@ -157,7 +157,7 @@ export const MENU_NODES: MenuNode[] = [
     id: "support",
     title: "Support",
     shape: "circle",
-    body: `Questions, bugs, or a stuck license — write to ${SUPPORT_EMAIL}.\n\nInclude the site you were on (Instagram, TikTok, or YouTube) and what you clicked. That is usually enough to reproduce it.`,
+    body: `Questions, bugs, or a stuck license — write to ${SUPPORT_EMAIL}.\n\nInclude the site you were on (Instagram, TikTok, or YouTube), the browser (Firefox or Chrome), and what you clicked. That is usually enough to reproduce it.`,
     href: "/privacy",
     hrefLabel: "Privacy policy",
   },
@@ -200,7 +200,7 @@ export const MENU_NODES: MenuNode[] = [
         body: "We never sell, share, or rent your personal information. Third parties below only get what they need to do their job.",
       },
       {
-        heading: "Firefox permissions",
+        heading: "Browser permissions",
         body: "The extension asks for storage, tabs, alarms, and downloads, plus access to Instagram, TikTok, our license server, and the report form. Those permissions exist so we can sort the page you opened, save settings, download files you asked for, and check a license. They do not let us read your browsing history or other sites.",
       },
       {
@@ -211,12 +211,12 @@ export const MENU_NODES: MenuNode[] = [
           "Cloudflare Workers and KV — license checks and storage",
           "Vercel — this website",
           "Web3Forms — optional issue reports you send",
-          "Mozilla Add-ons — the public listing and reviews",
+          "Mozilla Add-ons and the Chrome Web Store — the public listings and reviews",
         ],
       },
       {
         heading: "Storage and security",
-        body: "License records live in Cloudflare KV. Payment card details are handled by Stripe, not by us. Settings and the device id stay in your Firefox storage.",
+        body: "License records live in Cloudflare KV. Payment card details are handled by Stripe, not by us. Settings and the device id stay in your browser’s extension storage.",
       },
       {
         heading: "Data retention",
@@ -255,7 +255,7 @@ export const PAGES: Record<string, PageContent> = {
     title: "feed·rice",
     uri: "/",
     description:
-      "Sort Instagram, TikTok, and YouTube by likes, views, comments, and more. Export the numbers. Download the clips. All in the browser.",
+      "Sort Instagram, TikTok, and YouTube by likes, views, comments, and more. Export the numbers. Download the clips. Firefox and Chrome.",
     ctas: [
       { href: FIREFOX_URL, label: "Add to Firefox", icon: "plus" },
       { href: "/pricing", label: "Get Pro", ghost: true },

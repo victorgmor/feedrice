@@ -253,7 +253,7 @@ function LicenseActivateHelp() {
       <div className="page-section">
         <p className="page-lead">How to activate:</p>
         <ol className="page-steps">
-          <li>Open the feed·rice extension in Firefox</li>
+          <li>Open the feed·rice extension in Firefox or Chrome</li>
           <li>
             Click <em>Have a license? Activate here</em>
           </li>
