@@ -1,4 +1,48 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Button from "@/components/fundations/elements/Button.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+
+const items = [
+  { title: "How it works", description: "Sort, export, and download.", link: "/how-it-works" },
+  { title: "Pricing", description: "Free for 25 items. Pro from $3/mo.", link: "/pricing" },
+  { title: "License", description: "Look up the key you already paid for.", link: "/license" },
+];
 ---
-<Layout />
+
+<BaseLayout title="404 · feed·rice" description="This page does not exist.">
+  <section>
+    <Wrapper variant="standard" class="py-24">
+      <Text
+        tag="h1"
+        variant="display3XL"
+        class="text-balance font-semibold tracking-tighter text-primary"
+      >
+        404 — This page does not exist
+      </Text>
+      <Text tag="p" variant="textBase" class="mt-4 text-balance text-primary/60">
+        Sorry, we couldn’t find the page you’re looking for.
+      </Text>
+      <div class="mt-6 flex">
+        <Button isLink size="xs" variant="default" href="/" class="w-auto">
+          Go back home
+        </Button>
+      </div>
+      <div class="mt-16 grid grid-cols-1 gap-8 border-t border-primary/10 pt-12 md:grid-cols-3">
+        {
+          items.map((item) => (
+            <a href={item.link} class="group block">
+              <Text tag="h2" variant="textBase" class="font-medium text-primary">
+                {item.title}
+              </Text>
+              <Text tag="p" variant="textSM" class="mt-2 text-primary/60 group-hover:text-primary">
+                {item.description}
+              </Text>
+            </a>
+          ))
+        }
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

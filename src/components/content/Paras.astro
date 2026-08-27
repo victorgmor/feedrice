@@ -1,0 +1,27 @@
+---
+import { SUPPORT_EMAIL } from "@/lib/menu";
+
+interface Props {
+  text: string;
+  class?: string;
+}
+
+const { text, class: className = "text-primary/60" } = Astro.props;
+const blocks = text.split(/\n\n+/).filter(Boolean);
+---
+
+{
+  blocks.map((block) => {
+    const parts = block.split(SUPPORT_EMAIL);
+    return (
+      <p class={className}>
+        {parts.map((part, i) => (
+          <>
+            {i > 0 && <a href={`mailto:${SUPPORT_EMAIL}`} class="underline hover:text-primary">{SUPPORT_EMAIL}</a>}
+            {part}
+          </>
+        ))}
+      </p>
+    );
+  })
+}

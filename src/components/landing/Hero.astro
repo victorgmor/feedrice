@@ -1,0 +1,20 @@
+---
+import Text from "@/components/fundations/elements/Text.astro";
+
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title = "Sort by the numbers.", class: className = "" } = Astro.props;
+---
+
+<div>
+  <Text
+    tag="h1"
+    variant="display3XL"
+    class={`text-primary font-semibold tracking-tighter text-balance ${className}`.trim()}
+  >
+    {title}
+  </Text>
+</div>

@@ -31,22 +31,26 @@ export type PageContent = {
   ctas?: {
     href: string;
     label: string;
-    icon?: "telegram" | "file" | "plus";
+    icon?: "telegram" | "file" | "plus" | "firefox" | "chrome";
     ghost?: boolean;
     disabled?: boolean;
   }[];
 };
 
 export const FIREFOX_URL =
-  "https://addons.mozilla.org/en-US/firefox/addon/feedrice-sort-instagram-tiktok/";
+  "https://addons.mozilla.org/es-ES/firefox/addon/sort-download-instagram-tiktok/";
 export const FIREFOX_REVIEWS_URL = `${FIREFOX_URL}reviews/`;
+export const FIREFOX_REVIEW_ADD_URL = FIREFOX_REVIEWS_URL;
+export const CHROME_ITEM_ID = "mcohmgmnngloalmbjgeogalkpiighngb";
+export const CHROME_URL = `https://chromewebstore.google.com/detail/${CHROME_ITEM_ID}`;
+export const CHROME_REVIEW_URL = `${CHROME_URL}/reviews`;
 export const REVIEWS_JSON = "/reviews.json";
 export const VERSION_JSON = "/version.json";
 export const SUCCESS_KEY_JSON = "/success-key.json";
 export const LICENSE_LOOKUP_JSON = "/license-lookup.json";
 export const STRIPE_MONTHLY_URL = "https://buy.stripe.com/7sY28s804eUa9CGgzI3AY0f";
 export const STRIPE_ANNUAL_URL = "https://buy.stripe.com/8x2bJ2cgk8vM9CG3MW3AY0h";
-export const SUPPORT_EMAIL = "esvictorg@gmail.com";
+export const SUPPORT_EMAIL = "feedricedev@gmail.com";
 export const HOW_IT_WORKS_VIDEO_URL = "https://youtu.be/49WtCqrZTvo";
 export const VERSION = "6.17";
 
@@ -55,11 +59,11 @@ export const MENU_NODES: MenuNode[] = [
     id: "how-it-works",
     title: "How it works",
     shape: "circle",
-    body: "A browser extension that sorts Instagram, TikTok, and YouTube by the numbers that matter — then lets you export or download the result.",
+    body: "A browser extension that sorts Instagram and TikTok by the numbers that matter — then lets you export or download the result.",
     sections: [
       {
         heading: "Get started",
-        body: "Open Instagram, TikTok, or YouTube, then click the feed·rice icon in the toolbar. Pick how many items to scan and the metric to sort by. The page reorders in place.\n\nFree covers the latest 25 items. Pro unlocks larger batches, exports, and downloads.",
+        body: "Open Instagram or TikTok, then click the feed·rice icon in the toolbar. Pick how many items to scan and the metric to sort by. The page reorders in place.\n\nFree covers the latest 25 items. Pro unlocks larger batches, exports, and downloads.",
         href: HOW_IT_WORKS_VIDEO_URL,
         hrefLabel: "Watch the video",
       },
@@ -83,14 +87,6 @@ export const MENU_NODES: MenuNode[] = [
         ],
       },
       {
-        heading: "YouTube",
-        body: "Works on a channel’s Videos and Shorts tabs.",
-        items: [
-          "Sort by views or oldest first.",
-          "Export the sorted set to CSV, JSON, or Excel.",
-        ],
-      },
-      {
         heading: "Export & download",
         body: "After a sort, export engagement data as CSV, JSON, or Excel. On Instagram, Pro can also download the media itself. Everything runs in your browser — we do not upload the feed.",
       },
@@ -103,7 +99,7 @@ export const MENU_NODES: MenuNode[] = [
         body: "feed·rice runs locally in your browser.",
         items: [
           "Sorting, exporting, and downloads happen on the page you already opened.",
-          "We do not collect your Instagram, TikTok, or YouTube content.",
+          "We do not collect your Instagram or TikTok content.",
           "License checks talk only to our license server when you activate or renew Pro.",
           "We do not sell personal data.",
         ],
@@ -112,7 +108,9 @@ export const MENU_NODES: MenuNode[] = [
       },
       {
         heading: "Terms",
-        body: "feed·rice is an independent tool and is not affiliated with Instagram, Meta, TikTok, or YouTube. All trademarks and content belong to their owners.\n\nPlatform updates can briefly break sorting. We watch for that and ship fixes as soon as we can. You are responsible for how you use exported data and downloads.",
+        body: "feed·rice is an independent tool and is not affiliated with Instagram, Meta, or TikTok. All trademarks and content belong to their owners.\n\nPlatform updates can briefly break sorting. We watch for that and ship fixes as soon as we can. You are responsible for how you use exported data and downloads.",
+        href: "/terms",
+        hrefLabel: "Full terms",
       },
     ],
   },
@@ -131,7 +129,7 @@ export const MENU_NODES: MenuNode[] = [
             ["Sort metrics", "Included", "Included"],
             ["CSV / JSON / Excel", "—", "Included"],
             ["Instagram downloads", "—", "Included"],
-            ["Price", "$0", "$12/mo or $3/mo billed yearly"],
+            ["Browsers", "1", "Up to 3"],
           ],
         },
       },
@@ -157,10 +155,11 @@ export const MENU_NODES: MenuNode[] = [
     id: "support",
     title: "Support",
     shape: "circle",
-    body: `Questions, bugs, or a stuck license — write to ${SUPPORT_EMAIL}.\n\nInclude the site you were on (Instagram, TikTok, or YouTube), the browser (Firefox or Chrome), and what you clicked. That is usually enough to reproduce it.`,
-    href: "/privacy",
-    hrefLabel: "Privacy policy",
+    body: `Questions, bugs, or a stuck license — write to ${SUPPORT_EMAIL}.\n\nInclude the site you were on (Instagram or TikTok), the browser (Firefox or Chrome), and what you clicked. That is usually enough to reproduce it.`,
   },
+];
+
+export const FOOTER_NODES: MenuNode[] = [
   {
     id: "privacy",
     title: "Privacy",
@@ -182,7 +181,7 @@ export const MENU_NODES: MenuNode[] = [
       },
       {
         heading: "What we do not collect",
-        body: "We do not collect or store your browsing history, Instagram, TikTok, or YouTube content, posts viewed, likes, comments, or account passwords.\n\nSorting, exporting, and downloads run on the page you already opened. That feed data stays in your browser. We do not upload it.",
+        body: "We do not collect or store your browsing history, Instagram or TikTok content, posts viewed, likes, comments, or account passwords.\n\nSorting, exporting, and downloads run on the page you already opened. That feed data stays in your browser. We do not upload it.",
       },
       {
         heading: "How we use the information",
@@ -232,7 +231,7 @@ export const MENU_NODES: MenuNode[] = [
       },
       {
         heading: "Analytics and cookies",
-        body: "feed·rice does not use Google Analytics, advertising cookies, or tracking scripts. We do not collect data about your browsing or how you use Instagram, TikTok, or YouTube.",
+        body: "feed·rice does not use Google Analytics, advertising cookies, or tracking scripts. We do not collect data about your browsing or how you use Instagram or TikTok.",
       },
       {
         heading: "Data controller",
@@ -248,6 +247,38 @@ export const MENU_NODES: MenuNode[] = [
       },
     ],
   },
+  {
+    id: "terms",
+    title: "Terms",
+    shape: "circle",
+    body: "Last updated: August 26, 2026.\n\nThese terms cover the feed·rice extension and this site. By using either, you agree to them.",
+    sections: [
+      {
+        heading: "The product",
+        body: "feed·rice is a browser extension that sorts, exports, and downloads content already on pages you open in Instagram and TikTok. It is an independent tool and is not affiliated with Instagram, Meta, or TikTok. All trademarks and content belong to their owners.",
+      },
+      {
+        heading: "Your use",
+        body: "You are responsible for how you use sorted results, exports, and downloads, and for following each platform’s rules and the law. We do not grant rights to anyone else’s content.",
+      },
+      {
+        heading: "Pro",
+        body: "Pro is a subscription billed through Stripe. One license covers up to 3 browsers. We may change plans or prices; the price you paid stays until the next renewal you accept.",
+      },
+      {
+        heading: "Availability",
+        body: "Platform updates can briefly break sorting. We watch for that and ship fixes as soon as we can. We do not promise uninterrupted service.",
+      },
+      {
+        heading: "Changes",
+        body: "We may update these terms. The current version will always be at feedrice.xyz/terms.",
+      },
+      {
+        heading: "Contact",
+        body: `Questions about these terms: ${SUPPORT_EMAIL}`,
+      },
+    ],
+  },
 ];
 
 export const PAGES: Record<string, PageContent> = {
@@ -255,14 +286,14 @@ export const PAGES: Record<string, PageContent> = {
     title: "feed·rice",
     uri: "/",
     description:
-      "Sort Instagram, TikTok, and YouTube by likes, views, comments, and more. Export the numbers. Download the clips. Firefox and Chrome.",
+      "Sort Instagram and TikTok by likes, views, comments, and more. Export the numbers. Download the clips. Firefox and Chrome.",
     ctas: [
-      { href: FIREFOX_URL, label: "Add to Firefox", icon: "plus" },
-      { href: "/pricing", label: "Get Pro", ghost: true },
+      { href: FIREFOX_URL, label: "Add to Firefox", icon: "firefox" },
+      { href: CHROME_URL, label: "Add to Chrome", icon: "chrome", ghost: true },
     ],
   },
   ...Object.fromEntries(
-    MENU_NODES.map((n) => [
+    [...MENU_NODES, ...FOOTER_NODES].map((n) => [
       n.id,
       {
         title: n.title,

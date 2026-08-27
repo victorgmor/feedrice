@@ -1,0 +1,62 @@
+---
+import Logo from "@/components/assets/Logo.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import MobileNav from "@/components/global/MobileNav.astro";
+import { MENU_NODES, SUPPORT_EMAIL } from "@/lib/menu";
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  ...MENU_NODES.map((node) => ({ href: `/${node.id}`, label: node.title })),
+];
+
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<section>
+  <Wrapper variant="standard">
+    <div class="flex items-center justify-between gap-4 py-3">
+      <a href="/" class="flex items-center gap-2 text-primary font-medium">
+        <Logo />
+      </a>
+      <nav
+        class="hidden items-center justify-center gap-5 text-primary lg:flex"
+        aria-label="Primary"
+      >
+        {
+          navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <a
+                href={link.href}
+                class:list={[
+                  "text-sm duration-300 hover:text-primary",
+                  active ? "text-primary font-bold underline" : "text-primary/60",
+                ]}
+                aria-current={active ? "page" : undefined}
+              >
+                {link.label}
+              </a>
+            );
+          })
+        }
+      </nav>
+      <div class="flex items-center gap-3">
+        <a
+          href={`mailto:${SUPPORT_EMAIL}`}
+          class="hidden text-sm text-primary/60 duration-300 hover:text-primary lg:inline"
+        >
+          {SUPPORT_EMAIL}
+        </a>
+        <button
+          id="navToggle"
+          class="text-primary text-sm duration-300 hover:text-primary/40 lg:hidden"
+          aria-expanded="false"
+          aria-controls="mobileMenu"
+        >
+          Menu
+        </button>
+      </div>
+    </div>
+  </Wrapper>
+</section>
+<MobileNav links={navLinks} />

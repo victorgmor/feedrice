@@ -1,0 +1,20 @@
+---
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Wrapper variant="standard" class="pt-16 pb-8 lg:pt-24">
+  <Text
+    tag="h1"
+    variant="display3XL"
+    class="text-primary font-semibold tracking-tighter text-balance"
+  >
+    {title}
+  </Text>
+</Wrapper>

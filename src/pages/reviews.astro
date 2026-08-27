@@ -1,0 +1,24 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/content/PageHero.astro";
+import Paras from "@/components/content/Paras.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import ReviewsPanel from "@/components/react/ReviewsPanel";
+import { getPage } from "@/lib/menu";
+
+const page = getPage("reviews")!;
+---
+
+<BaseLayout title={`${page.title} · feed·rice`} description={page.description}>
+  <section>
+    <PageHero title={page.title} />
+    <Wrapper variant="standard" class="pb-24">
+      <Wrapper variant="narrow">
+        <Paras text={page.description} class="text-base text-primary/60" />
+        <div class="mt-10">
+          <ReviewsPanel client:load />
+        </div>
+      </Wrapper>
+    </Wrapper>
+  </section>
+</BaseLayout>

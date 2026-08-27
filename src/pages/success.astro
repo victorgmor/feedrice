@@ -1,0 +1,22 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/content/PageHero.astro";
+import Paras from "@/components/content/Paras.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import LicensePanel from "@/components/react/LicensePanel";
+import { getPage } from "@/lib/menu";
+
+const page = getPage("success")!;
+---
+
+<BaseLayout title="feed·rice" description={page.description}>
+  <section>
+    <PageHero title="You're in" />
+    <Wrapper variant="standard" class="pb-24">
+      <Wrapper variant="narrow">
+        <Paras text={page.description} class="text-base text-primary/60" />
+        <LicensePanel client:load mode="checkout" />
+      </Wrapper>
+    </Wrapper>
+  </section>
+</BaseLayout>

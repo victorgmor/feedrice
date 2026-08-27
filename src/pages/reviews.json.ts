@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 
 export const prerender = false;
 
-const SLUG = "feedrice-sort-instagram-tiktok";
+const SLUG = "sort-download-instagram-tiktok";
 const AMO = "https://addons.mozilla.org/api/v5";
 const HEADERS = {
   Accept: "application/json",

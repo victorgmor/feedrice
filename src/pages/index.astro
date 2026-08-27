@@ -1,4 +1,24 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Hero from "@/components/landing/Hero.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import StoreButtons from "@/components/content/StoreButtons.astro";
+import HelpCenterFaq from "@/components/helpcenter/HelpCenterFaq.astro";
+import { getPage } from "@/lib/menu";
+
+const home = getPage("/")!;
 ---
-<Layout />
+
+<BaseLayout description={home.description}>
+  <section>
+    <Wrapper variant="standard" class="pt-24 pb-8">
+      <Hero />
+      <Text tag="p" variant="textLG" class="mt-8 max-w-2xl text-balance text-primary/60">
+        {home.description}
+      </Text>
+      <StoreButtons />
+    </Wrapper>
+  </section>
+  <HelpCenterFaq />
+</BaseLayout>

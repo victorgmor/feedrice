@@ -1,0 +1,22 @@
+---
+interface Props {
+  variant?: "standard" | "narrow" | "prose";
+  class?: string;
+  id?: string;
+}
+
+const { variant = "standard", class: extraClass = "", id } = Astro.props;
+
+const variantClasses = {
+  narrow: "max-w-2xl w-full",
+  standard: "max-w-[1400px] mx-auto px-8",
+  prose:
+    "prose text-sm text-primary/60 prose-blockquote:border-l-primary prose-a:hover:underline prose-headings:font-medium prose-headings:text-primary prose-pre:border max-w-none prose-pre:rounded-xl w-full prose-blockquote:text-primary/60 prose-pre:scrollbar-hide prose-strong:text-primary prose-li:marker:text-primary/40",
+};
+
+const classes = `${variantClasses[variant]} ${extraClass}`.trim();
+---
+
+<div class={classes} id={id}>
+  <slot />
+</div>

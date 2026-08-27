@@ -1,0 +1,100 @@
+---
+import ChevronDown from "@/components/fundations/icons/ChevronDown.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+
+const faq = [
+  {
+    question: "What is free?",
+    answer:
+      "Free sorts the latest 25 items on Instagram or TikTok. Sorting happens on the page you already opened.",
+  },
+  {
+    question: "What does Pro unlock?",
+    answer:
+      "Unlimited sorts, CSV / JSON / Excel exports, and Instagram downloads. One license covers up to 3 browsers.",
+  },
+  {
+    question: "How do I activate a key?",
+    answer:
+      "Subscribe here or in the extension. After payment you land on this site with your key. Open feed·rice, tap Activate here, and paste it.",
+  },
+  {
+    question: "Does it work on Firefox and Chrome?",
+    answer:
+      "Yes. Install from the Firefox Add-ons site or the Chrome Web Store. Reviews on this site are pulled live from Firefox.",
+  },
+];
+---
+
+<section>
+  <Wrapper variant="standard" class="py-12 lg:py-24">
+    <div class="grid grid-cols-1 items-start gap-12 lg:grid-cols-3 lg:gap-24">
+      <div>
+        <Text
+          tag="span"
+          variant="textXS"
+          class="flex items-center gap-2 font-medium uppercase text-primary/60"
+        >
+          FAQ
+        </Text>
+        <Text
+          tag="h3"
+          variant="displayMD"
+          class="text-primary mt-8 lg:text-balance"
+        >
+          Frequently asked questions
+        </Text>
+        <Text tag="p" variant="textBase" class="mt-2 text-primary/60">
+          Sorting, exports, Pro, and browsers.
+        </Text>
+      </div>
+      <div class="flex flex-col gap-4 lg:col-span-2" id="faq-accordion">
+        {
+          faq.map((item, index) => (
+            <div class="overflow-hidden">
+              <button
+                type="button"
+                class="faq-toggle flex w-full items-center justify-between pb-2 text-left font-medium text-primary"
+                data-index={index}
+              >
+                <span>{item.question}</span>
+                <ChevronDown
+                  data-icon
+                  class="size-5 transition-transform duration-200"
+                />
+              </button>
+              <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                <div class="border-b border-primary/10 pt-2 pb-8">
+                  <Text tag="p" class="text-primary/60">
+                    {item.answer}
+                  </Text>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Wrapper>
+  <script type="module">
+    document.querySelectorAll(".faq-toggle").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector("[data-icon]");
+        const isOpen =
+          content.style.maxHeight && content.style.maxHeight !== "0px";
+        document
+          .querySelectorAll(".faq-content")
+          .forEach((el) => (el.style.maxHeight = "0px"));
+        document
+          .querySelectorAll("[data-icon]")
+          .forEach((chevron) => (chevron.style.transform = "rotate(0deg)"));
+        if (!isOpen) {
+          content.style.maxHeight = content.scrollHeight + "px";
+          if (icon) icon.style.transform = "rotate(180deg)";
+        }
+      });
+    });
+  </script>
+</section>

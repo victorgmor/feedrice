@@ -1,0 +1,8 @@
+---
+const { class: className = "", ...rest } = Astro.props;
+---
+
+<span class:list={["inline-flex items-center gap-2", className]} {...rest}>
+  <img src="/icon.svg" alt="" width="16" height="16" class="size-4 -translate-y-[2px]" />
+  <span>feed·rice</span>
+</span>

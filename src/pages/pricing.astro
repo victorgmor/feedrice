@@ -1,0 +1,138 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/content/PageHero.astro";
+import HelpCenterFaq from "@/components/helpcenter/HelpCenterFaq.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Button from "@/components/fundations/elements/Button.astro";
+import {
+  STRIPE_ANNUAL_URL,
+  STRIPE_MONTHLY_URL,
+  getPage,
+} from "@/lib/menu";
+
+const page = getPage("pricing")!;
+const compare = page.sections?.[0]?.compare;
+---
+
+<BaseLayout title={`${page.title} · feed·rice`} description={page.description}>
+  <section>
+    <PageHero title={page.title} />
+    <Wrapper variant="standard" class="pb-12">
+      <Text tag="p" variant="textLG" class="max-w-2xl text-primary/60">
+        {page.description}
+      </Text>
+      <Text tag="p" variant="textSM" class="mt-2 text-primary/60">
+        {page.sections?.[0]?.body}
+      </Text>
+      {
+        compare && (
+          <div class="mt-12 overflow-x-auto">
+            <table class="w-full min-w-[36rem] border-collapse text-left text-sm">
+              <colgroup>
+                <col class="w-[34%]" />
+                <col class="w-[33%]" />
+                <col class="w-[33%]" />
+              </colgroup>
+              <thead>
+                <tr class="border-b border-primary/10 align-bottom">
+                  <th class="py-6 pr-6"></th>
+                  <th scope="col" class="py-6 pr-6 font-normal">
+                    <Text
+                      tag="p"
+                      variant="textXS"
+                      class="font-medium uppercase text-primary"
+                    >
+                      Free
+                    </Text>
+                    <Text
+                      tag="p"
+                      variant="displayMD"
+                      class="mt-4 font-semibold tracking-tighter text-primary"
+                    >
+                      $0
+                    </Text>
+                    <Text tag="p" variant="textSM" class="mt-2 text-primary/60">
+                      Latest 25 items
+                    </Text>
+                  </th>
+                  <th scope="col" class="py-6 font-normal">
+                    <Text
+                      tag="p"
+                      variant="textXS"
+                      class="font-medium uppercase text-primary"
+                    >
+                      Pro
+                    </Text>
+                    <Text
+                      tag="p"
+                      variant="displayMD"
+                      class="mt-4 font-semibold tracking-tighter text-primary"
+                    >
+                      $3/mo
+                    </Text>
+                    <Text tag="p" variant="textSM" class="mt-2 text-primary/60">
+                      Billed yearly · 75% off
+                    </Text>
+                    <Text tag="p" variant="textSM" class="mt-1 text-primary/60">
+                      or $12 monthly
+                    </Text>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {compare.rows.map((row) => (
+                  <tr class="border-b border-primary/10">
+                    <th
+                      scope="row"
+                      class="py-3 pr-6 text-left font-normal text-primary"
+                    >
+                      {row[0]}
+                    </th>
+                    <td class="py-3 pr-6 text-primary/60">{row[1]}</td>
+                    <td class="py-3 font-medium text-primary">{row[2]}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr class="align-top">
+                  <td class="pt-8 pr-6"></td>
+                  <td class="pt-8 pr-6">
+                    <Button isLink href="/" size="sm" variant="muted">
+                      Get the extension
+                    </Button>
+                  </td>
+                  <td class="pt-8">
+                    <div class="flex flex-col items-start gap-3">
+                      <Button
+                        isLink
+                        href={STRIPE_ANNUAL_URL}
+                        size="sm"
+                        variant="default"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Annual — $3/mo
+                      </Button>
+                      <Button
+                        isLink
+                        href={STRIPE_MONTHLY_URL}
+                        size="sm"
+                        variant="ghost"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Monthly — $12
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        )
+      }
+    </Wrapper>
+  </section>
+  <HelpCenterFaq />
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/content/PageHero.astro";
+import Paras from "@/components/content/Paras.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import { getPage } from "@/lib/menu";
+
+const page = getPage("support")!;
+---
+
+<BaseLayout title={`${page.title} · feed·rice`} description={page.description}>
+  <section>
+    <PageHero title={page.title} />
+    <Wrapper variant="standard" class="pb-24">
+      <Wrapper variant="narrow" class="space-y-6">
+        <Paras text={page.description} class="text-base text-primary/60" />
+      </Wrapper>
+    </Wrapper>
+  </section>
+</BaseLayout>
