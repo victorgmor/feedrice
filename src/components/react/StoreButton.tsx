@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react";
 import { CHROME_URL, FIREFOX_URL } from "@/lib/menu";
 
-function isChromium() {
-  if (typeof navigator === "undefined") return false;
-  const ua = navigator.userAgent;
-  if (/firefox/i.test(ua)) return false;
-  return /chrome|chromium|crios|edg/i.test(ua);
-}
-
 export default function StoreButton() {
-  const [firefox, setFirefox] = useState(true);
+  const [firefox, setFirefox] = useState(false);
 
   useEffect(() => {
-    if (isChromium()) setFirefox(false);
+    if (typeof navigator !== "undefined" && /firefox/i.test(navigator.userAgent)) {
+      setFirefox(true);
+    }
   }, []);
 
   const href = firefox ? FIREFOX_URL : CHROME_URL;

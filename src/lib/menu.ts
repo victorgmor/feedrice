@@ -128,8 +128,8 @@ export const MENU_NODES: MenuNode[] = [
             ["Limit", "25", "Unlimited"],
             ["Sort metrics", "Included", "Included"],
             ["CSV / JSON / Excel", "—", "Included"],
-            ["Instagram downloads", "—", "Included"],
-            ["Browsers", "1", "Up to 3"],
+            ["Post/Reel/Video downloads", "—", "Included"],
+            ["Browsers", "—", "Up to 3"],
           ],
         },
       },
@@ -149,7 +149,7 @@ export const MENU_NODES: MenuNode[] = [
     id: "reviews",
     title: "Reviews",
     shape: "circle",
-    body: "What people wrote on the Firefox add-on listing. Pulled live from AMO.",
+    body: "What people wrote on the Firefox and Chrome listings. Pulled live from both stores.",
   },
   {
     id: "support",
@@ -286,10 +286,10 @@ export const PAGES: Record<string, PageContent> = {
     title: "feed·rice",
     uri: "/",
     description:
-      "Sort Instagram and TikTok by likes, views, comments, and more. Export the numbers. Download the clips. Firefox and Chrome.",
+      "Open any Instagram or TikTok profile and sort it by likes, views, or comments. Then export the data or download the clips.",
     ctas: [
-      { href: FIREFOX_URL, label: "Add to Firefox", icon: "firefox" },
-      { href: CHROME_URL, label: "Add to Chrome", icon: "chrome", ghost: true },
+      { href: CHROME_URL, label: "Add to Chrome", icon: "chrome" },
+      { href: FIREFOX_URL, label: "Add to Firefox", icon: "firefox", ghost: true },
     ],
   },
   ...Object.fromEntries(

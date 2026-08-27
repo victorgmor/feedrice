@@ -5,6 +5,7 @@ import HelpCenterFaq from "@/components/helpcenter/HelpCenterFaq.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Button from "@/components/fundations/elements/Button.astro";
+import StoreButton from "@/components/react/StoreButton";
 import {
   STRIPE_ANNUAL_URL,
   STRIPE_MONTHLY_URL,
@@ -53,7 +54,7 @@ const compare = page.sections?.[0]?.compare;
                       $0
                     </Text>
                     <Text tag="p" variant="textSM" class="mt-2 text-primary/60">
-                      Latest 25 items
+                      Try it out for free
                     </Text>
                   </th>
                   <th scope="col" class="py-6 font-normal">
@@ -72,10 +73,7 @@ const compare = page.sections?.[0]?.compare;
                       $3/mo
                     </Text>
                     <Text tag="p" variant="textSM" class="mt-2 text-primary/60">
-                      Billed yearly · 75% off
-                    </Text>
-                    <Text tag="p" variant="textSM" class="mt-1 text-primary/60">
-                      or $12 monthly
+                      Billed yearly · 75% off or $12 monthly
                     </Text>
                   </th>
                 </tr>
@@ -98,12 +96,10 @@ const compare = page.sections?.[0]?.compare;
                 <tr class="align-top">
                   <td class="pt-8 pr-6"></td>
                   <td class="pt-8 pr-6">
-                    <Button isLink href="/" size="sm" variant="muted">
-                      Get the extension
-                    </Button>
+                    <StoreButton client:load />
                   </td>
                   <td class="pt-8">
-                    <div class="flex flex-col items-start gap-3">
+                    <div class="flex flex-wrap items-center gap-3">
                       <Button
                         isLink
                         href={STRIPE_ANNUAL_URL}
