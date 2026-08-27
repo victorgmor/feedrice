@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CHROME_URL, FIREFOX_URL } from "@/lib/menu";
 
-export default function StoreButton() {
+export default function StoreButton({ className = "" }: { className?: string }) {
   const [firefox, setFirefox] = useState(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function StoreButton() {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex h-9 items-center justify-center rounded-full bg-primary px-4 text-sm font-medium text-secondary transition hover:bg-primary/80"
+      className={`inline-flex h-9 items-center justify-center rounded-full bg-primary px-4 text-sm font-medium text-secondary transition hover:bg-primary/80 ${className}`.trim()}
     >
       <span className="inline-flex items-baseline gap-4">
         <img

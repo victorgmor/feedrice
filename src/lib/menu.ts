@@ -94,24 +94,6 @@ export const MENU_NODES: MenuNode[] = [
         heading: "Activate Pro",
         body: "Subscribe from the extension or this site. After payment you land on this site with your license key. Open feed·rice, tap Activate here, and paste the key.",
       },
-      {
-        heading: "Privacy",
-        body: "feed·rice runs locally in your browser.",
-        items: [
-          "Sorting, exporting, and downloads happen on the page you already opened.",
-          "We do not collect your Instagram or TikTok content.",
-          "License checks talk only to our license server when you activate or renew Pro.",
-          "We do not sell personal data.",
-        ],
-        href: "/privacy",
-        hrefLabel: "Full privacy policy",
-      },
-      {
-        heading: "Terms",
-        body: "feed·rice is an independent tool and is not affiliated with Instagram, Meta, or TikTok. All trademarks and content belong to their owners.\n\nPlatform updates can briefly break sorting. We watch for that and ship fixes as soon as we can. You are responsible for how you use exported data and downloads.",
-        href: "/terms",
-        hrefLabel: "Full terms",
-      },
     ],
   },
   {

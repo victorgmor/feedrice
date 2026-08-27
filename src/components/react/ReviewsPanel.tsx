@@ -103,7 +103,12 @@ export default function ReviewsPanel() {
           return (
             <li key={r.id} className="py-6">
               <div className="flex flex-wrap items-center gap-3 text-sm">
-                <span aria-label={`${r.score} out of 5`}>{stars(r.score)}</span>
+                <span
+                  aria-label={`${r.score} out of 5`}
+                  className="text-xl leading-none tracking-tight"
+                >
+                  {stars(r.score)}
+                </span>
                 {r.url ? (
                   <a
                     href={r.url}

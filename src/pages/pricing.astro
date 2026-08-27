@@ -96,10 +96,10 @@ const compare = page.sections?.[0]?.compare;
                 <tr class="align-top">
                   <td class="pt-8 pr-6"></td>
                   <td class="pt-8 pr-6">
-                    <StoreButton client:load />
+                    <StoreButton client:load className="w-1/2" />
                   </td>
                   <td class="pt-8">
-                    <div class="flex flex-wrap items-center gap-3">
+                    <div class="flex w-full items-center gap-4">
                       <Button
                         isLink
                         href={STRIPE_ANNUAL_URL}
@@ -107,6 +107,7 @@ const compare = page.sections?.[0]?.compare;
                         variant="default"
                         target="_blank"
                         rel="noreferrer"
+                        class="flex-1"
                       >
                         Annual — $3/mo
                       </Button>
@@ -117,6 +118,7 @@ const compare = page.sections?.[0]?.compare;
                         variant="ghost"
                         target="_blank"
                         rel="noreferrer"
+                        class="flex-1"
                       >
                         Monthly — $12
                       </Button>

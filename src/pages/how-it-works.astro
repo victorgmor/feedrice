@@ -14,16 +14,18 @@ const page = getPage("how-it-works")!;
     <PageHero title={page.title} />
     <Wrapper variant="standard" class="pb-24">
       <Wrapper variant="narrow">
-        <Paras text={page.description} class="text-base text-primary/60" />
-        <div class="mt-12 divide-y divide-primary/10 border-y border-primary/10">
+        <div class="space-y-4">
+          <Paras text={page.description} />
+        </div>
+        <div class="mt-12 space-y-10">
           {
             (page.sections ?? []).map((section) => (
-              <article class="py-10">
+              <article>
                 {section.heading && (
                   <Text
                     tag="h2"
-                    variant="textBase"
-                    class="font-medium text-primary"
+                    variant="textLG"
+                    class="font-semibold tracking-tight text-primary"
                   >
                     {section.heading}
                   </Text>
@@ -34,7 +36,7 @@ const page = getPage("how-it-works")!;
                   </div>
                 )}
                 {section.items && (
-                  <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-primary/60">
+                  <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-primary/60 marker:text-primary/40">
                     {section.items.map((item) => (
                       <li>{item}</li>
                     ))}

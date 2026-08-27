@@ -2,12 +2,12 @@
 import Logo from "@/components/assets/Logo.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import MobileNav from "@/components/global/MobileNav.astro";
-import { MENU_NODES, SUPPORT_EMAIL } from "@/lib/menu";
+import { MENU_NODES } from "@/lib/menu";
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  ...MENU_NODES.map((node) => ({ href: `/${node.id}`, label: node.title })),
-];
+const navLinks = MENU_NODES.map((node) => ({
+  href: `/${node.id}`,
+  label: node.title,
+}));
 
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
@@ -41,12 +41,6 @@ const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
         }
       </nav>
       <div class="flex items-center gap-3">
-        <a
-          href={`mailto:${SUPPORT_EMAIL}`}
-          class="hidden text-sm text-primary/60 duration-300 hover:text-primary lg:inline"
-        >
-          {SUPPORT_EMAIL}
-        </a>
         <button
           id="navToggle"
           class="text-primary text-sm duration-300 hover:text-primary/40 lg:hidden"
