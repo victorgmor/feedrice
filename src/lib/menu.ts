@@ -93,6 +93,8 @@ export const MENU_NODES: MenuNode[] = [
       {
         heading: "Activate Pro",
         body: "Subscribe from the extension or this site. After payment you land on this site with your license key. Open feed·rice, tap Activate here, and paste the key.",
+        href: "/pricing",
+        hrefLabel: "Subscribe",
       },
     ],
   },

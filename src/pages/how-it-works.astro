@@ -4,6 +4,7 @@ import PageHero from "@/components/content/PageHero.astro";
 import Paras from "@/components/content/Paras.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import Text from "@/components/fundations/elements/Text.astro";
+import Button from "@/components/fundations/elements/Button.astro";
 import { getPage } from "@/lib/menu";
 
 const page = getPage("how-it-works")!;
@@ -42,18 +43,25 @@ const page = getPage("how-it-works")!;
                     ))}
                   </ul>
                 )}
-                {section.href && (
-                  <p class="mt-4">
-                    <a
-                      href={section.href}
-                      target={section.href.startsWith("http") ? "_blank" : undefined}
-                      rel={section.href.startsWith("http") ? "noreferrer" : undefined}
-                      class="text-sm underline hover:text-primary"
-                    >
-                      {section.hrefLabel ?? section.href}
-                    </a>
-                  </p>
-                )}
+                {section.href &&
+                  (section.href === "/pricing" ? (
+                    <div class="mt-6">
+                      <Button isLink href="/pricing" size="sm">
+                        {section.hrefLabel ?? "Subscribe"}
+                      </Button>
+                    </div>
+                  ) : (
+                    <p class="mt-4">
+                      <a
+                        href={section.href}
+                        target={section.href.startsWith("http") ? "_blank" : undefined}
+                        rel={section.href.startsWith("http") ? "noreferrer" : undefined}
+                        class="text-sm underline hover:text-primary"
+                      >
+                        {section.hrefLabel ?? section.href}
+                      </a>
+                    </p>
+                  ))}
               </article>
             ))
           }
